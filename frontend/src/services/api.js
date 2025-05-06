@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// Для разработки вне Docker используем localhost:5000
-// В Docker-среде это будет заменено на http://backend:5000 через переменные окружения
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
 const api = axios.create({

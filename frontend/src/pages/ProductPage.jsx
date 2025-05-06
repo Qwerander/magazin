@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import {
-  fetchProductById,
-  fetchReviews,
-  addReview
-} from '../services/api';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchProductById, fetchReviews, addReview } from "../services/api";
 import {
   Typography,
   Box,
@@ -17,7 +13,7 @@ import {
   ListItem,
   ListItemText,
   Divider
-} from '@mui/material';
+} from "@mui/material";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -26,12 +22,11 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [reviewForm, setReviewForm] = useState({
-    userName: '',
+    userName: "",
     rating: 5,
-    comment: ''
+    comment: ""
   });
 
-  // Загрузка данных товара и отзывов
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -50,16 +45,15 @@ const ProductPage = () => {
     loadData();
   }, [id]);
 
-  // Обработчик отправки отзыва
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
       const newReview = await addReview(id, reviewForm);
       setReviews([...reviews, newReview]);
       setReviewForm({
-        userName: '',
+        userName: "",
         rating: 5,
-        comment: ''
+        comment: ""
       });
     } catch (err) {
       setError(err.message);
@@ -92,7 +86,6 @@ const ProductPage = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* Информация о товаре */}
       <Typography variant="h4" gutterBottom>
         {product.name}
       </Typography>
@@ -103,7 +96,7 @@ const ProductPage = () => {
             <img
               src={product.image}
               alt={product.name}
-              style={{ maxWidth: '100%', borderRadius: '8px' }}
+              style={{ maxWidth: "100%", borderRadius: "8px" }}
             />
           )}
         </Box>
@@ -113,11 +106,7 @@ const ProductPage = () => {
             ${product.price}
           </Typography>
 
-          <Rating
-            value={product.rating}
-            readOnly
-            precision={0.5}
-          />
+          <Rating value={product.rating} readOnly precision={0.5} />
 
           <Typography variant="body1" mt={2}>
             {product.description}
@@ -133,7 +122,6 @@ const ProductPage = () => {
         </Box>
       </Box>
 
-      {/* Форма добавления отзыва */}
       <Box component="form" onSubmit={handleReviewSubmit} sx={{ mb: 4 }}>
         <Typography variant="h6" gutterBottom>
           Оставить отзыв
@@ -143,7 +131,9 @@ const ProductPage = () => {
           fullWidth
           label="Ваше имя"
           value={reviewForm.userName}
-          onChange={(e) => setReviewForm({...reviewForm, userName: e.target.value})}
+          onChange={(e) =>
+            setReviewForm({ ...reviewForm, userName: e.target.value })
+          }
           required
           sx={{ mb: 2 }}
         />
@@ -152,7 +142,9 @@ const ProductPage = () => {
           <Typography component="legend">Оценка</Typography>
           <Rating
             value={reviewForm.rating}
-            onChange={(e, newValue) => setReviewForm({...reviewForm, rating: newValue})}
+            onChange={(e, newValue) =>
+              setReviewForm({ ...reviewForm, rating: newValue })
+            }
           />
         </Box>
 
@@ -162,7 +154,9 @@ const ProductPage = () => {
           rows={4}
           label="Комментарий"
           value={reviewForm.comment}
-          onChange={(e) => setReviewForm({...reviewForm, comment: e.target.value})}
+          onChange={(e) =>
+            setReviewForm({ ...reviewForm, comment: e.target.value })
+          }
           sx={{ mb: 2 }}
         />
 
@@ -171,7 +165,6 @@ const ProductPage = () => {
         </Button>
       </Box>
 
-      {/* Список отзывов */}
       <Typography variant="h6" gutterBottom>
         Отзывы ({reviews.length})
       </Typography>
@@ -193,10 +186,7 @@ const ProductPage = () => {
                       >
                         {review.comment}
                       </Typography>
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                      >
+                      <Typography variant="caption" color="text.secondary">
                         {new Date(review.createdAt).toLocaleDateString()}
                       </Typography>
                     </>

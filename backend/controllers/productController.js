@@ -1,6 +1,5 @@
 const Product = require("../models/Products");
 
-// Получить все товары (с фильтрацией)
 exports.getProducts = async (req, res) => {
   try {
     const { category, minPrice, maxPrice, sortBy } = req.query;
@@ -25,7 +24,6 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-// Создать товар
 exports.createProduct = async (req, res) => {
     try {
       const { name, price, description, category, image, stock } = req.body;

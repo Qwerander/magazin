@@ -2,17 +2,14 @@ const express = require('express');
 const router = express.Router();
 const {
   getProducts,
-  getProductById, // Добавляем этот метод
+  getProductById,
   createProduct
 } = require('../controllers/productController');
 
-// Получение списка товаров
 router.get('/', getProducts);
 
-// Получение конкретного товара по ID
-router.get('/:id', getProductById); // Добавляем этот роут
+router.get('/:id', getProductById);
 
-// Создание товара
 router.post('/', createProduct);
 
 module.exports = router;
