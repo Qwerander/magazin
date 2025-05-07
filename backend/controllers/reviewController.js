@@ -1,16 +1,8 @@
-const Review = require("../models/Review");
-const Product = require("../models/Products");
+const reviewService = require("../services/reviewService");
 
 exports.addReview = async (req, res) => {
   try {
-    const { productId } = req.params;
-    const review = new Review({ ...req.body, productId });
-    await review.save();
-
-    const reviews = await Review.find({ productId });
-    const avgRating = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
-    await Product.findByIdAndUpdate(productId, { rating: avgRating });
-
+    const review = await reviewService.addReview(req.params.productId, req.body);
     res.status(201).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -19,8 +11,7 @@ exports.addReview = async (req, res) => {
 
 exports.getReviews = async (req, res) => {
   try {
-    const { productId } = req.params;
-    const reviews = await Review.find({ productId });
+    const reviews = await reviewService.getReviewsByProduct(req.params.productId);
     res.json(reviews);
   } catch (err) {
     res.status(500).json({ error: err.message });
