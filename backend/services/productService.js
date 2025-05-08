@@ -2,10 +2,11 @@ const Product = require("../models/Products");
 
 class ProductService {
   async getProducts(filterParams) {
-    const { category, minPrice, maxPrice, sortBy } = filterParams;
+    const { type_care, minPrice, maxPrice, sortBy, brand } = filterParams;
     const filter = {};
 
-    if (category) filter.category = category;
+    if (type_care) filter.type_care = type_care;
+    if (brand) filter.brand = brand;
     if (minPrice || maxPrice) {
       filter.price = {};
       if (minPrice) filter.price.$gte = Number(minPrice);
@@ -21,17 +22,23 @@ class ProductService {
   }
 
   async createProduct(productData) {
-    const { name, price, category } = productData;
-    if (!name || !price || !category) {
-      throw new Error("Необходимо указать название, цену и категорию товара");
+    const { title, price, brand, manufactur, barcode } = productData;
+    if (!title || !price || !brand || !manufactur || !barcode) {
+      throw new Error("Необходимо указать название, цену, бренд, производителя и штрих-код товара");
     }
 
     const product = new Product({
-      name,
-      price,
+      url: productData.url || "",
+      title,
+      type_volume: productData.type_volume || "",
+      volume: productData.volume || "",
+      barcode,
+      manufactur,
+      brand,
+      type_care: productData.type_care || [],
       description: productData.description || "",
-      category,
-      image: productData.image || "",
+      price,
+      rating: productData.rating || 0,
       stock: productData.stock || 0
     });
 
@@ -46,8 +53,28 @@ class ProductService {
     return product;
   }
 
+  async getProductByBarcode(barcode) {
+    const product = await Product.findOne({ barcode });
+    if (!product) {
+      throw new Error("Товар с указанным штрих-кодом не найден");
+    }
+    return product;
+  }
+
   async updateProductRating(productId, newRating) {
-    return await Product.findByIdAndUpdate(productId, { rating: newRating });
+    return await Product.findByIdAndUpdate(
+      productId,
+      { rating: newRating },
+      { new: true } // Возвращает обновленный документ
+    );
+  }
+
+  async updateProductStock(productId, newStock) {
+    return await Product.findByIdAndUpdate(
+      productId,
+      { stock: newStock },
+      { new: true }
+    );
   }
 }
 

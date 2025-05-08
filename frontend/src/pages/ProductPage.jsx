@@ -87,15 +87,15 @@ const ProductPage = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        {product.name}
+        {product.title}
       </Typography>
 
       <Box display="flex" gap={4} mb={4}>
         <Box flex={1}>
-          {product.image && (
+          {product.url && (
             <img
-              src={product.image}
-              alt={product.name}
+              src={product.url}
+              alt={product.title}
               style={{ maxWidth: "100%", borderRadius: "8px" }}
             />
           )}

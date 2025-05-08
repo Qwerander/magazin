@@ -1,0 +1,262 @@
+[
+    {
+
+        "url": "https://i.ibb.co/SNH8xtF/image1.png",
+        "title": "Крем для рук",
+        "type_volume": "Вес",
+        "volume": "50г",
+        "barcode": "4604049097501",
+        "manufactur": "Grifon",
+        "brand": "Grifon",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 222
+    },
+    {
+
+        "url": "https://i.ibb.co/hdHNHJQ/image2.png",
+        "title": "Гель для тела",
+        "type_volume": "Объём",
+        "volume": "500мл",
+        "barcode": "4604049097502",
+        "manufactur": "Boyscout",
+        "brand": "Boyscout",
+        "type_care": ["за телом", "за волосами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 549
+    },
+    {
+
+        "url": "https://i.ibb.co/TWrvJvF/image3.png",
+        "title": "Присыпка",
+        "type_volume": "Вес",
+        "volume": "200г",
+        "barcode": "4604049097503",
+        "manufactur": "Paclan",
+        "brand": "Paclan",
+        "type_care": ["за телом"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 325
+    },
+    {
+
+        "url": "https://i.ibb.co/SfK4yTg/image4.png",
+        "title": "Молочко для тела",
+        "type_volume": "Объём",
+        "volume": "170мл",
+        "barcode": "4604049097504",
+        "manufactur": "Nivea",
+        "brand": "Nivea",
+        "type_care": ["за телом", "за лицом"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 422
+    },
+    {
+
+        "url": "https://i.ibb.co/SNH8xtF/image1.png",
+        "title": "Мазь для рук и ног",
+        "type_volume": "Вес",
+        "volume": "100г",
+        "barcode": "4604049097505",
+        "manufactur": "HELP",
+        "brand": "HELP",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 567
+    },
+    {
+
+        "url": "https://i.ibb.co/SNH8xtF/image1.png",
+        "title": "Лак для ногтей",
+        "type_volume": "Объём",
+        "volume": "15мл",
+        "barcode": "4604049097506",
+        "manufactur": "Булгари Грин",
+        "brand": "Булгари Грин",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 115
+    },
+    {
+
+        "url": "https://i.ibb.co/SNH8xtF/image1.png",
+        "title": "Лак для ногтей",
+        "type_volume": "Объём",
+        "volume": "15мл",
+        "barcode": "4604049097507",
+        "manufactur": "Булгари Грин",
+        "brand": "Булгари Грин",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 113
+    },
+    {
+
+        "url": "https://i.ibb.co/SNH8xtF/image1.png",
+        "title": "Крем для рук и лица",
+        "type_volume": "Вес",
+        "volume": "50г",
+        "barcode": "4604049097508",
+        "manufactur": "Grifon",
+        "brand": "Grifon",
+        "type_care": ["за руками", "за лицом"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 223
+    },
+    {
+
+        "url": "https://i.ibb.co/hdHNHJQ/image2.png",
+        "title": "Шампунь",
+        "type_volume": "Объём",
+        "volume": "500мл",
+        "barcode": "4604049097509",
+        "manufactur": "Домашний сундук",
+        "brand": "Домашний сундук",
+        "type_care": ["за телом", "за волосами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 488
+    },
+    {
+
+        "url": "https://i.ibb.co/hdHNHJQ/image2.png",
+        "title": "Масло ",
+        "type_volume": "Объём",
+        "volume": "300мл",
+        "barcode": "4604049097510",
+        "manufactur": "Nivea",
+        "brand": "Nivea",
+        "type_care": ["за телом"],
+        "description":  "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 721
+    },
+    {
+
+        "url": "https://i.ibb.co/hdHNHJQ/image2.png",
+        "title": "Крем для рук",
+        "type_volume": "Вес",
+        "volume": "50г",
+        "barcode": "4604049097511",
+        "manufactur": "Grifon",
+        "brand": "Grifon",
+        "type_care": ["за руками"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 229
+    },
+    {
+
+        "url": "https://i.ibb.co/hdHNHJQ/image2.png",
+        "title": "Гель для тела",
+        "type_volume": "Объём",
+        "volume": "500мл",
+        "barcode": "4604049097512",
+        "manufactur": "Boyscout",
+        "brand": "Boyscout",
+        "type_care": ["за телом"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 548
+    },
+    {
+
+        "url": "https://i.ibb.co/TWrvJvF/image3.png",
+        "title": "Присыпка",
+        "type_volume": "Вес",
+        "volume": "200г",
+        "barcode": "4604049097513",
+        "manufactur": "Paclan",
+        "brand": "Paclan",
+        "type_care": ["за телом", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 327
+    },
+    {
+
+        "url": "https://i.ibb.co/TWrvJvF/image3.png",
+        "title": "Молочко",
+        "type_volume": "Объём",
+        "volume": "170мл",
+        "barcode": "4604049097514",
+        "manufactur": "Nivea",
+        "brand": "Nivea",
+        "type_care": ["за телом", "за ногами", "за руками", "за лицом"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 428
+    },
+    {
+
+        "url": "https://i.ibb.co/TWrvJvF/image3.png",
+        "title": "Мазь для рук и ног",
+        "type_volume": "Вес",
+        "volume": "100г",
+        "barcode": "4604049097515",
+        "manufactur": "HELP",
+        "brand": "HELP",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 523
+    },
+    {
+
+        "url": "https://i.ibb.co/TWrvJvF/image3.png",
+        "title": "Лак для ногтей",
+        "type_volume": "Объём",
+        "volume": "15мл",
+        "barcode": "4604049097516",
+        "manufactur": "Булгари Грин",
+        "brand": "Булгари Грин",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 117
+    },
+    {
+
+        "url": "https://i.ibb.co/SfK4yTg/image4.png",
+        "title": "Лак для ногтей",
+        "type_volume": "Объём",
+        "volume": "15мл",
+        "barcode": "4604049097517",
+        "manufactur": "Булгари Грин",
+        "brand": "Булгари Грин",
+        "type_care": ["за руками", "за ногами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 120
+    },
+    {
+
+        "url": "https://i.ibb.co/SfK4yTg/image4.png",
+        "title": "Гель для волос",
+        "type_volume": "Вес",
+        "volume": "50г",
+        "barcode": "4604049097518",
+        "manufactur": "Grifon",
+        "brand": "Grifon",
+        "type_care": ["за волосами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 243
+    },
+    {
+
+        "url": "https://i.ibb.co/SfK4yTg/image4.png",
+        "title": "Шампунь",
+        "type_volume": "Объём",
+        "volume": "500мл",
+        "barcode": "4604049097519",
+        "manufactur": "Домашний сундук",
+        "brand": "Домашний сундук",
+        "type_care": ["за телом", "за волосами"],
+        "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 588
+    },
+    {
+
+        "url": "https://i.ibb.co/SfK4yTg/image4.png",
+        "title": "Масло ",
+        "type_volume": "Объём",
+        "volume": "300мл",
+        "barcode": "4604049097520",
+        "manufactur": "Nivea",
+        "brand": "Nivea",
+        "type_care": ["за телом", "за ногами", "за руками"],
+        "description":  "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "price": 629
+    }
+]
