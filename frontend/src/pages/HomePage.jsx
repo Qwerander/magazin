@@ -1,12 +1,24 @@
 import React from "react";
+import { Box, Typography, Button } from "@mui/material";
 import ProductList from "../components/ProductList";
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>Интернет-магазин</h1>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+          Добро пожаловать в Greenshop
+        </Typography>
+        <Typography variant="h5" sx={{ mb: 3 }}>
+          Давайте сделаем планету лучше
+        </Typography>
+        <Typography sx={{ mb: 3, maxWidth: 600, mx: 'auto' }}>
+          Мы интернет-магазин растений, предлагающий широкий ассортимент недорогих и модных растений.
+          Создайте свой городской сад с нашими растениями. Закажите свои любимые растения!
+        </Typography>
+      </Box>
       <ProductList />
-    </div>
+    </Box>
   );
 };
 

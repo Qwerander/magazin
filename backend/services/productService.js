@@ -2,11 +2,13 @@ const Product = require("../models/Products");
 
 class ProductService {
   async getProducts(filterParams) {
-    const { type_care, minPrice, maxPrice, sortBy, brand } = filterParams;
+    const { type_plant, minPrice, maxPrice, sortBy, weight } = filterParams;
     const filter = {};
 
-    if (type_care) filter.type_care = type_care;
-    if (brand) filter.brand = brand;
+    if (type_plant) {
+      filter.type_plant = Array.isArray(type_plant) ? { $in: type_plant } : type_plant;
+    }
+    if (weight) filter.weight = weight;
     if (minPrice || maxPrice) {
       filter.price = {};
       if (minPrice) filter.price.$gte = Number(minPrice);
@@ -16,33 +18,31 @@ class ProductService {
     const sortOptions = {};
     if (sortBy === "price_asc") sortOptions.price = 1;
     if (sortBy === "price_desc") sortOptions.price = -1;
-    if (sortBy === "rating") sortOptions.rating = -1;
 
-    return await Product.find(filter).sort(sortOptions);
+    const products = await Product.find(filter).sort(sortOptions);
+    return products.map(p => p.toObject({ virtuals: true }));
   }
 
   async createProduct(productData) {
-    const { title, price, brand, manufactur, barcode } = productData;
-    if (!title || !price || !brand || !manufactur || !barcode) {
-      throw new Error("Необходимо указать название, цену, бренд, производителя и штрих-код товара");
+    const { title, price, barcode, weight } = productData;
+    if (!title || !price || !barcode || !weight) {
+      throw new Error("Необходимо указать название, цену, штрих-код и вес товара");
     }
 
     const product = new Product({
       url: productData.url || "",
       title,
-      type_volume: productData.type_volume || "",
-      volume: productData.volume || "",
+      weight,
       barcode,
-      manufactur,
-      brand,
-      type_care: productData.type_care || [],
+      type_plant: productData.type_plant || [],
       description: productData.description || "",
       price,
       rating: productData.rating || 0,
       stock: productData.stock || 0
     });
 
-    return await product.save();
+    const savedProduct = await product.save();
+    return savedProduct.toObject({ virtuals: true });
   }
 
   async getProductById(id) {
@@ -50,7 +50,7 @@ class ProductService {
     if (!product) {
       throw new Error("Товар не найден");
     }
-    return product;
+    return product.toObject({ virtuals: true });
   }
 
   async getProductByBarcode(barcode) {
@@ -58,23 +58,25 @@ class ProductService {
     if (!product) {
       throw new Error("Товар с указанным штрих-кодом не найден");
     }
-    return product;
+    return product.toObject({ virtuals: true });
   }
 
   async updateProductRating(productId, newRating) {
-    return await Product.findByIdAndUpdate(
+    const product = await Product.findByIdAndUpdate(
       productId,
       { rating: newRating },
-      { new: true } // Возвращает обновленный документ
+      { new: true }
     );
+    return product.toObject({ virtuals: true });
   }
 
   async updateProductStock(productId, newStock) {
-    return await Product.findByIdAndUpdate(
+    const product = await Product.findByIdAndUpdate(
       productId,
       { stock: newStock },
       { new: true }
     );
+    return product.toObject({ virtuals: true });
   }
 }
 

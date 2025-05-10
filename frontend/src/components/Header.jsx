@@ -18,7 +18,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, selectCurrentUser } from "../store/sclices/authSlice";
+import { logout, selectCurrentUser } from "../store/slices/authSlice";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

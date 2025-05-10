@@ -11,7 +11,7 @@ import {
 import { Google as GoogleIcon, Facebook as FacebookIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, setCredentials, setError } from '../store/sclices/authSlice';
+import { clearError, setCredentials, setError } from '../store/slices/authSlice';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
