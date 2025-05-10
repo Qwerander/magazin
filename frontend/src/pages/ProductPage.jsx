@@ -12,8 +12,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  Divider
+  Divider,
+  IconButton
 } from "@mui/material";
+import { Add, Remove } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart, removeItemFromCart } from "../store/slices/cartSlice";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -26,6 +30,10 @@ const ProductPage = () => {
     rating: 5,
     comment: ""
   });
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems.find((item) => item.id === id);
 
   useEffect(() => {
     const loadData = async () => {
@@ -58,6 +66,21 @@ const ProductPage = () => {
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(
+      addItemToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.url
+      })
+    );
+  };
+
+  const handleRemoveFromCart = () => {
+    dispatch(removeItemFromCart(product.id));
   };
 
   if (loading) {
@@ -103,10 +126,43 @@ const ProductPage = () => {
 
         <Box flex={1}>
           <Typography variant="h5" gutterBottom>
-            ${product.price}
+            {product.price} ₽
           </Typography>
 
           <Rating value={product.rating} readOnly precision={0.5} />
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 3 }}>
+            {cartItem ? (
+              <>
+                <IconButton
+                  color="primary"
+                  onClick={handleRemoveFromCart}
+                  sx={{ border: "1px solid", borderColor: "divider" }}
+                >
+                  <Remove fontSize="small" />
+                </IconButton>
+                <Typography sx={{ minWidth: 24, textAlign: "center" }}>
+                  {cartItem.quantity}
+                </Typography>
+                <IconButton
+                  color="primary"
+                  onClick={handleAddToCart}
+                  sx={{ border: "1px solid", borderColor: "divider" }}
+                >
+                  <Add fontSize="small" />
+                </IconButton>
+              </>
+            ) : (
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleAddToCart}
+                sx={{ width: 200 }}
+              >
+                В корзину
+              </Button>
+            )}
+          </Box>
 
           <Typography variant="body1" mt={2}>
             {product.description}

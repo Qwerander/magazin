@@ -5,11 +5,38 @@ import {
   Typography,
   Button,
   Box,
-  Chip
+  Chip,
+  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addItemToCart, removeItemFromCart } from "../store/slices/cartSlice";
+import { Add, Remove } from "@mui/icons-material";
 
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.items);
+  const cartItem = cartItems.find(item => item.id === product.id);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      addItemToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.url
+      })
+    );
+  };
+
+  const handleRemoveFromCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(removeItemFromCart(product.id));
+  };
+
   return (
     <Card
       sx={{
@@ -67,7 +94,7 @@ const ProductCard = ({ product }) => {
         </Box>
 
         <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-          ${product.price}
+          {product.price} ₽
         </Typography>
         <Typography variant="body2">
           Вес: {product.weight || "Не указан"}
@@ -80,20 +107,41 @@ const ProductCard = ({ product }) => {
           ))}
         </Box>
 
-        <Button
-          variant="contained"
-          color="success"
-          sx={{
-            mt: "auto",
-            textTransform: "none"
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <span style={{ textDecoration: "none" }}>В корзину</span>
-        </Button>
+        <Box sx={{ mt: "auto", display: "flex", alignItems: "center" }}>
+          {cartItem ? (
+            <>
+              <IconButton
+                color="primary"
+                onClick={handleRemoveFromCart}
+                sx={{ border: "1px solid", borderColor: "divider" }}
+              >
+                <Remove fontSize="small" />
+              </IconButton>
+              <Typography mx={1} sx={{ minWidth: 24, textAlign: "center" }}>
+                {cartItem.quantity}
+              </Typography>
+              <IconButton
+                color="primary"
+                onClick={handleAddToCart}
+                sx={{ border: "1px solid", borderColor: "divider" }}
+              >
+                <Add fontSize="small" />
+              </IconButton>
+            </>
+          ) : (
+            <Button
+              variant="contained"
+              color="success"
+              fullWidth
+              sx={{
+                textTransform: "none"
+              }}
+              onClick={handleAddToCart}
+            >
+              В корзину
+            </Button>
+          )}
+        </Box>
       </CardContent>
     </Card>
   );

@@ -13,9 +13,11 @@ import {
   Divider,
   Avatar,
   Menu,
-  MenuItem
+  MenuItem,
+  Badge
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, selectCurrentUser } from "../store/slices/authSlice";
@@ -24,6 +26,7 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector(selectCurrentUser);
+  const cartItemsCount = useSelector(state => state.cart.totalQuantity);
   const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
@@ -46,10 +49,7 @@ const Header = () => {
   };
 
   const navItems = [
-    { text: "Home", path: "/" },
-    { text: "Shop", path: "/shop" },
-    { text: "Plant Care", path: "/plant-care" },
-    { text: "Blogs", path: "/blogs" }
+    { text: "Главная", path: "/" }
   ];
 
   const drawer = (
@@ -66,6 +66,17 @@ const Header = () => {
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
+        <ListItem
+          button="true"
+          component={Link}
+          to="/cart"
+          onClick={handleDrawerToggle}
+        >
+          <ListItemText primary="Корзина" />
+          {cartItemsCount > 0 && (
+            <Badge badgeContent={cartItemsCount} color="primary" />
+          )}
+        </ListItem>
       </List>
       <Divider />
       <Box sx={{ p: 2 }}>
@@ -86,7 +97,7 @@ const Header = () => {
               "&:hover": { borderColor: "primary.dark" }
             }}
           >
-            Login
+            Войти
           </Button>
         )}
       </Box>
@@ -127,6 +138,17 @@ const Header = () => {
             gap: 2
           }}
         >
+          <IconButton
+            color="inherit"
+            component={Link}
+            to="/cart"
+            sx={{ mr: 1 }}
+          >
+            <Badge badgeContent={cartItemsCount} color="primary">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+
           {user ? (
             <>
               <Button
@@ -145,7 +167,7 @@ const Header = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Выйти</MenuItem>
               </Menu>
             </>
           ) : (
@@ -159,7 +181,7 @@ const Header = () => {
                 "&:hover": { borderColor: "primary.dark" }
               }}
             >
-              Login
+              Войти
             </Button>
           )}
         </Box>

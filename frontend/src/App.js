@@ -7,6 +7,8 @@ import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import NotFoundPage from "./pages/NotFoundPage";
 import { CssBaseline, Container } from '@mui/material';
+import Footer from "./components/Footer";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -17,10 +19,12 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <Footer />
       </Container>
     </>
   );
