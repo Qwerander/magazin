@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="xl" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />

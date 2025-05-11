@@ -108,7 +108,7 @@ const ProductPage = () => {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3 }}>
       <Typography variant="h4" gutterBottom>
         {product.title}
       </Typography>

@@ -33,23 +33,23 @@ const SignUp = () => {
     const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
+      newErrors.username = 'Имя пользователя обязательно';
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email обязателен';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = 'Некорректный email';
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Пароль обязателен';
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = 'Пароль должен быть не менее 6 символов';
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = 'Пароли не совпадают';
     }
 
     setErrors(newErrors);
@@ -77,14 +77,14 @@ const SignUp = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        throw new Error(data.message || 'Ошибка регистрации');
       }
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('userId', data.userId);
       navigate('/');
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Ошибка регистрации:', error);
       setErrors({ submit: error.message });
     }
   };
@@ -96,14 +96,14 @@ const SignUp = () => {
       </Typography>
 
       <Typography variant="h5" component="h2" gutterBottom align="center">
-        Create an account
+        Создать аккаунт
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <TextField
           fullWidth
           margin="normal"
-          label="Username"
+          label="Имя пользователя"
           name="username"
           value={formData.username}
           onChange={handleChange}
@@ -114,7 +114,7 @@ const SignUp = () => {
         <TextField
           fullWidth
           margin="normal"
-          label="Email Address"
+          label="Email"
           name="email"
           type="email"
           value={formData.email}
@@ -126,7 +126,7 @@ const SignUp = () => {
         <TextField
           fullWidth
           margin="normal"
-          label="Password"
+          label="Пароль"
           name="password"
           type="password"
           value={formData.password}
@@ -138,7 +138,7 @@ const SignUp = () => {
         <TextField
           fullWidth
           margin="normal"
-          label="Confirm Password"
+          label="Подтвердите пароль"
           name="confirmPassword"
           type="password"
           value={formData.confirmPassword}
@@ -161,17 +161,17 @@ const SignUp = () => {
           type="submit"
           sx={{ mt: 3, mb: 2 }}
         >
-          Create an account
+          Создать аккаунт
         </Button>
 
-        <Divider sx={{ my: 3 }}>Or register with</Divider>
+        <Divider sx={{ my: 3 }}>Или зарегистрироваться через</Divider>
 
         <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
           <Button
             fullWidth
             variant="outlined"
             startIcon={<GoogleIcon />}
-            onClick={() => {/* Google auth implementation */}}
+            onClick={() => {}}
           >
             Google
           </Button>
@@ -180,16 +180,16 @@ const SignUp = () => {
             fullWidth
             variant="outlined"
             startIcon={<FacebookIcon />}
-            onClick={() => {/* Facebook auth implementation */}}
+            onClick={() => {}}
           >
             Facebook
           </Button>
         </Box>
 
         <Typography align="center">
-          Already have an account?{' '}
+          Уже есть аккаунт?{' '}
           <Link href="/login" underline="hover">
-            Login
+            Войти
           </Link>
         </Typography>
       </Box>

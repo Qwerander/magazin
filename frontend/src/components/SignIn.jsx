@@ -34,7 +34,6 @@ const SignIn = () => {
       ...formData,
       [name]: value
     });
-    // Очищаем локальные ошибки при изменении поля
     setLocalErrors({
       ...localErrors,
       [name]: ''
@@ -47,15 +46,15 @@ const SignIn = () => {
     const newErrors = {};
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email обязателен';
       isValid = false;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = 'Некорректный email';
       isValid = false;
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Пароль обязателен';
       isValid = false;
     }
 
@@ -81,10 +80,9 @@ const SignIn = () => {
       });
 
       const data = await response.json();
-      console.log(data);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || 'Ошибка входа');
       }
 
       dispatch(setCredentials({
@@ -107,14 +105,14 @@ const SignIn = () => {
       </Typography>
 
       <Typography variant="h5" component="h2" gutterBottom align="center">
-        Login
+        Вход
       </Typography>
 
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <TextField
           fullWidth
           margin="normal"
-          label="Email Address"
+          label="Email"
           name="email"
           type="email"
           value={formData.email}
@@ -126,7 +124,7 @@ const SignIn = () => {
         <TextField
           fullWidth
           margin="normal"
-          label="Password"
+          label="Пароль"
           name="password"
           type="password"
           value={formData.password}
@@ -149,17 +147,17 @@ const SignIn = () => {
           type="submit"
           sx={{ mt: 3, mb: 2 }}
         >
-          Login
+          Войти
         </Button>
 
-        <Divider sx={{ my: 3 }}>Or login with</Divider>
+        <Divider sx={{ my: 3 }}>Или войти через</Divider>
 
         <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
           <Button
             fullWidth
             variant="outlined"
             startIcon={<GoogleIcon />}
-            onClick={() => {/* Google auth implementation */}}
+            onClick={() => {}}
           >
             Google
           </Button>
@@ -168,16 +166,16 @@ const SignIn = () => {
             fullWidth
             variant="outlined"
             startIcon={<FacebookIcon />}
-            onClick={() => {/* Facebook auth implementation */}}
+            onClick={() => {}}
           >
             Facebook
           </Button>
         </Box>
 
         <Typography align="center">
-          Don't have an account?{' '}
+          Нет аккаунта?{' '}
           <Link href="/signup" underline="hover">
-            Sign Up
+            Зарегистрироваться
           </Link>
         </Typography>
       </Box>

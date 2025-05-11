@@ -38,7 +38,7 @@ const CartPage = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: '100%'}}>
       <Typography variant="h4" gutterBottom>
         Корзина
       </Typography>

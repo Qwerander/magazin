@@ -26,7 +26,7 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector(selectCurrentUser);
-  const cartItemsCount = useSelector(state => state.cart.totalQuantity);
+  const cartItemsCount = useSelector((state) => state.cart.totalQuantity);
   const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
@@ -48,9 +48,7 @@ const Header = () => {
     handleMenuClose();
   };
 
-  const navItems = [
-    { text: "Главная", path: "/" }
-  ];
+  const navItems = [{ text: "Главная", path: "/" }];
 
   const drawer = (
     <Box sx={{ width: 250 }} role="presentation">
@@ -110,7 +108,10 @@ const Header = () => {
       sx={{
         backgroundColor: "white",
         color: "primary.main",
-        boxShadow: "none"
+        boxShadow: "none",
+        maxWidth: 1200,
+        margin: "0 auto",
+        pt: 4
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>

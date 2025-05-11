@@ -9,8 +9,9 @@ const Footer = () => {
       sx={{
         backgroundColor: '#f5f5f5',
         py: 3,
-        mt: 'auto',
-        borderTop: '1px solid #e0e0e0'
+        margin: "auto auto 0",
+        maxWidth: 1200,
+        width: '100%'
       }}
     >
       <Container maxWidth="md">

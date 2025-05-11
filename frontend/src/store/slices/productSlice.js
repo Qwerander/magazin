@@ -1,12 +1,13 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { createProduct, fetchProducts } from '../../services/api';
 
+// Асинхронные Thunks
 export const loadProducts = createAsyncThunk(
   'products/loadProducts',
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchProducts();
-      return data
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -17,14 +18,11 @@ export const addNewProduct = createAsyncThunk(
   'products/addNewProduct',
   async (productData, { rejectWithValue }) => {
     try {
-      // Преобразуем данные перед отправкой
       const dataToSend = {
         ...productData,
         _id: productData.id
       };
-
       const newProduct = await createProduct(dataToSend);
-      // Преобразуем полученные данные
       return newProduct;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -32,58 +30,64 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
+// Вспомогательная функция для фильтрации и сортировки
 const applyFiltersAndSorting = (state) => {
   let filteredItems = [...state.allItems];
 
-  // Apply price range filter
+  // Фильтрация по цене
   filteredItems = filteredItems.filter(
     item => item.price >= state.filters.priceRange[0] &&
             item.price <= state.filters.priceRange[1]
   );
 
-  // Apply weight filter
+  // Фильтрация по весу
   if (state.filters.weight) {
     filteredItems = filteredItems.filter(
       item => item.weight.includes(state.filters.weight)
     );
   }
 
-  // Apply plant type filter
+  // Фильтрация по типу растения
   if (state.filters.type_plant.length > 0) {
     filteredItems = filteredItems.filter(item =>
       item.type_plant.some(type => state.filters.type_plant.includes(type))
     );
   }
 
-  // Apply sorting
+  // Сортировка
   if (state.sortBy === 'price_asc') {
     filteredItems.sort((a, b) => a.price - b.price);
   } else if (state.sortBy === 'price_desc') {
     filteredItems.sort((a, b) => b.price - a.price);
   }
 
+  // Только мутируем состояние, не возвращаем новый объект
   state.items = filteredItems;
 };
 
+// Начальное состояние
+const initialState = {
+  items: [],
+  allItems: [],
+  status: 'idle',
+  error: null,
+  filters: {
+    priceRange: [0, 1000],
+    weight: '',
+    type_plant: [],
+  },
+  sortBy: '',
+  currentPage: 1,
+  itemsPerPage: 6,
+  uniquePlantTypes: [],
+  minPrice: 0,
+  maxPrice: 1000,
+};
+
+// Создание slice
 const productsSlice = createSlice({
   name: 'products',
-  initialState: {
-    items: [],
-    allItems: [],
-    status: 'idle',
-    error: null,
-    filters: {
-      priceRange: [0, 1000],
-      weight: '',
-      type_plant: [],
-    },
-    sortBy: '',
-    currentPage: 1,
-    itemsPerPage: 6,
-    uniquePlantTypes: [],
-    minPrice: 0,
-    maxPrice: 1000,
-  },
+  initialState,
   reducers: {
     setFilters: (state, action) => {
       state.filters = { ...state.filters, ...action.payload };
@@ -118,17 +122,16 @@ const productsSlice = createSlice({
         state.status = 'succeeded';
         state.allItems = action.payload;
 
-        // Calculate min and max prices
+        // Расчет цен
         const prices = action.payload.map(p => p.price);
         state.minPrice = Math.min(...prices);
         state.maxPrice = Math.max(...prices);
         state.filters.priceRange = [state.minPrice, state.maxPrice];
 
-        // Extract unique plant types
+        // Уникальные типы растений
         const allTypes = action.payload.flatMap(product => product.type_plant);
         state.uniquePlantTypes = [...new Set(allTypes)];
 
-        // Apply initial filters
         applyFiltersAndSorting(state);
       })
       .addCase(loadProducts.rejected, (state, action) => {
@@ -138,12 +141,12 @@ const productsSlice = createSlice({
       .addCase(addNewProduct.fulfilled, (state, action) => {
         state.allItems.unshift(action.payload);
 
-        // Update price range if needed
+        // Обновление цен
         const newPrice = action.payload.price;
         if (newPrice < state.minPrice) state.minPrice = newPrice;
         if (newPrice > state.maxPrice) state.maxPrice = newPrice;
 
-        // Update unique plant types if new types were added
+        // Обновление типов растений
         const newTypes = action.payload.type_plant.filter(
           type => !state.uniquePlantTypes.includes(type)
         );
@@ -156,6 +159,7 @@ const productsSlice = createSlice({
   },
 });
 
+// Экспорт actions и селекторов остаются без изменений
 export const {
   setFilters,
   setSortBy,
@@ -163,24 +167,62 @@ export const {
   resetFilters
 } = productsSlice.actions;
 
+export const selectProductsState = (state) => state.products;
+
+export const selectAllProducts = createSelector(
+  [selectProductsState],
+  (products) => {
+    const startIndex = (products.currentPage - 1) * products.itemsPerPage;
+    return products.items.slice(startIndex, startIndex + products.itemsPerPage);
+  }
+);
+
+export const selectProductsStatus = createSelector(
+  [selectProductsState],
+  (products) => products.status
+);
+
+export const selectProductsError = createSelector(
+  [selectProductsState],
+  (products) => products.error
+);
+
+export const selectProductsFilters = createSelector(
+  [selectProductsState],
+  (products) => products.filters
+);
+
+export const selectSortBy = createSelector(
+  [selectProductsState],
+  (products) => products.sortBy
+);
+
+export const selectCurrentPage = createSelector(
+  [selectProductsState],
+  (products) => products.currentPage
+);
+
+export const selectTotalPages = createSelector(
+  [selectProductsState],
+  (products) => Math.ceil(products.items.length / products.itemsPerPage)
+);
+
+export const selectUniquePlantTypes = createSelector(
+  [selectProductsState],
+  (products) => products.uniquePlantTypes
+);
+
+export const selectPriceRange = createSelector(
+  [
+    (state) => state.products.minPrice,
+    (state) => state.products.maxPrice,
+    (state) => state.products.filters.priceRange
+  ],
+  (min, max, current) => ({
+    min,
+    max,
+    current
+  })
+);
+
 export default productsSlice.reducer;
-
-export const selectAllProducts = (state) => {
-  const { items, currentPage, itemsPerPage } = state.products;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  return items.slice(startIndex, startIndex + itemsPerPage);
-};
-
-export const selectProductsStatus = (state) => state.products.status;
-export const selectProductsError = (state) => state.products.error;
-export const selectProductsFilters = (state) => state.products.filters;
-export const selectSortBy = (state) => state.products.sortBy;
-export const selectCurrentPage = (state) => state.products.currentPage;
-export const selectTotalPages = (state) =>
-  Math.ceil(state.products.items.length / state.products.itemsPerPage);
-export const selectUniquePlantTypes = (state) => state.products.uniquePlantTypes;
-export const selectPriceRange = (state) => ({
-  min: state.products.minPrice,
-  max: state.products.maxPrice,
-  current: state.products.filters.priceRange,
-});
