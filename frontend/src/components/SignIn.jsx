@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials, setError, clearError, selectAuthError, selectAuthStatus } from '../store/slices/authSlice';
 import { getUserData } from '../services/api';
+import { loadUserData } from '../store/slices/userSlice';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -95,14 +96,14 @@ const SignIn = () => {
       }
 
       // Получаем полные данные пользователя после успешного входа
-      const userDataResponse = await getUserData(data.token);
+      // const userDataResponse = await getUserData(data.token);
+      dispatch(loadUserData(data.token));
 
       dispatch(setCredentials({
         user: {
           _id: data.userId,
           username: data.username,
           email: data.email,
-          user_data: userDataResponse
         },
         token: data.token
       }));

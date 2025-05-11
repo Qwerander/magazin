@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -20,12 +20,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, selectCurrentUser } from "../store/slices/authSlice";
+import { logout, selectCurrentUser, selectIsAdmin } from "../store/slices/authSlice";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector(selectCurrentUser);
+  const isAdmin = useSelector(selectIsAdmin);
   const cartItemsCount = useSelector((state) => state.cart.totalQuantity);
   const dispatch = useDispatch();
 
@@ -48,11 +49,31 @@ const Header = () => {
     handleMenuClose();
   };
 
-  const navItems = [{ text: "Главная", path: "/" }];
+  // Базовые пункты меню, доступные всем
+  const baseNavItems = [
+    { text: "Главная", path: "/" }
+  ];
 
-  // useEffect((
-  //   dispatch
-  // ) => {})
+  // Пункты меню для авторизованных пользователей
+  const authNavItems = [
+    ...baseNavItems,
+    { text: "Мои заказы", path: "/user" }
+  ];
+
+  // Пункты меню для администратора
+  const adminNavItems = [
+    ...baseNavItems,
+    { text: "Админка", path: "/admin" }
+  ];
+
+  // Определяем какие пункты меню показывать
+  const getNavItems = () => {
+    if (!user) return baseNavItems;
+    if (isAdmin) return adminNavItems;
+    return authNavItems;
+  };
+
+  const navItems = getNavItems();
 
   const drawer = (
     <Box sx={{ width: 250 }} role="presentation">

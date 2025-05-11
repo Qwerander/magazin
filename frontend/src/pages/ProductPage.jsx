@@ -109,7 +109,7 @@ const ProductPage = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3 }}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: '100%' }}>
       <Typography variant="h4" gutterBottom>
         {product.title}
       </Typography>
@@ -169,14 +169,18 @@ const ProductPage = () => {
             {product.description}
           </Typography>
 
-          <Typography variant="body2" mt={2} color="text.secondary">
-            Категория:{" "}
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, my: 1 }}>
+          <Box sx={{ display: "flex", flexDirection: 'column', alignItems: 'start', gap: 0.5, my: 1 }}>
+            <Typography variant="body2" mt={2} color="text.secondary">
+              Категория:{" "}
+            </Typography>
+            <Box
+              sx={{ display: "flex", flexWrap: 'wrap', gap: 0.5, my: 1 }}
+            >
               {product.type_plant?.map((type) => (
                 <Chip key={type} label={type} size="small" />
               ))}
             </Box>
-          </Typography>
+          </Box>
 
           <Typography variant="body2" color="text.secondary">
             На складе: {product.stock} шт.

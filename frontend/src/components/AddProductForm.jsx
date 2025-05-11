@@ -19,7 +19,8 @@ const AddProductForm = ({ onProductAdded }) => {
     type_plant: [],
     description: '',
     price: '',
-    id: ''
+    id: '',
+    stock: '',
   });
 
   const plantTypes = ["Комнатные растения", "Растения для горшков", "Садовые растения"];
@@ -36,11 +37,8 @@ const AddProductForm = ({ onProductAdded }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const productWithId = {
-      ...formData,
-      id: Date.now().toString() // временный ID
-    };
-    onProductAdded(productWithId);
+
+    onProductAdded(formData);
   };
 
   return (
@@ -114,6 +112,17 @@ const AddProductForm = ({ onProductAdded }) => {
         onChange={handleChange}
         multiline
         rows={4}
+        sx={{ mb: 2 }}
+      />
+
+      <TextField
+        fullWidth
+        label="Колличество"
+        name="stock"
+        type="number"
+        value={formData.stock}
+        onChange={handleChange}
+        required
         sx={{ mb: 2 }}
       />
 

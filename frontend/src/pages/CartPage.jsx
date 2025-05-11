@@ -23,8 +23,13 @@ import {
 } from "../store/slices/cartSlice";
 import { Link as RouterLink } from "react-router-dom";
 import ThankYouModal from "../components/ThankYouModal";
-import { logout, selectCurrentToken, selectCurrentUser } from "../store/slices/authSlice";
+import {
+  logout,
+  selectCurrentToken,
+  selectCurrentUser
+} from "../store/slices/authSlice";
 import { createOrder } from "../services/api";
+import { loadUserData } from "../store/slices/userSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();
@@ -34,50 +39,47 @@ const CartPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-const handleCheckout = async () => {
-  console.log(user);
-
-  if (!user || !token) {
-    console.error("Токен пользователя отсутствует");
-    return;
-  }
-
-  setIsLoading(true);
-  try {
-    const orderData = {
-      products: cart.items.map(item => ({
-        productId: item.id,
-        quantity: item.quantity
-      })),
-      totalPrice: cart.totalAmount
-    };
-
-    const order = await createOrder(token, orderData);
-
-
-    dispatch(clearCart());
-    setOpenModal(true);
-  } catch (error) {
-    console.error("Ошибка при оформлении заказа:", error);
-    // Добавим более информативное сообщение об ошибке
-    if (error.response && error.response.status === 401) {
-      alert("Сессия истекла. Пожалуйста, войдите снова.");
-      // Можно автоматически разлогинить пользователя
-      dispatch(logout());
-    } else {
-      alert("Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.");
+  const handleCheckout = async () => {
+    if (!user || !token) {
+      console.error("Токен пользователя отсутствует");
+      return;
     }
-  } finally {
-    setIsLoading(false);
-  }
-};
+
+    setIsLoading(true);
+
+    try {
+      const orderData = {
+        items: cart.items.map((item) => ({
+          productId: item.id,
+          quantity: item.quantity,
+          price: item.price
+        })),
+        totalPrice: cart.totalAmount
+      };
+
+      await createOrder(token, orderData);
+      dispatch(loadUserData(token));
+      dispatch(clearCart());
+      setOpenModal(true);
+    } catch (error) {
+      console.error("Ошибка при оформлении заказа:", error);
+      if (error.response?.status === 401) {
+        alert("Сессия истекла. Пожалуйста, войдите снова.");
+        dispatch(logout());
+      } else {
+        alert(`Ошибка: ${error.response?.data?.error || error.message}`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: '100%'}}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: "100%" }}>
       <Typography variant="h4" gutterBottom>
         Корзина
       </Typography>
@@ -87,7 +89,12 @@ const handleCheckout = async () => {
           <Typography variant="h6" gutterBottom>
             Ваша корзина пуста
           </Typography>
-          <Button variant="contained" color="primary" component={RouterLink} to="/">
+          <Button
+            variant="contained"
+            color="primary"
+            component={RouterLink}
+            to="/"
+          >
             Вернуться к покупкам
           </Button>
         </Box>

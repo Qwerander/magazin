@@ -27,7 +27,7 @@ import {
   resetFilters
 } from "../store/slices/productSlice";
 
-const ProductList = () => {
+const ProductList = ({ adminMode = false }) => {
   const [showAddForm, setShowAddForm] = React.useState(false);
   const products = useSelector(selectAllProducts);
   const status = useSelector(selectProductsStatus);
@@ -40,7 +40,9 @@ const ProductList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadProducts());
+    if (!adminMode) {
+      dispatch(loadProducts());
+    }
   }, [dispatch]);
 
   const handleFilterChange = (newFilters) => {
@@ -60,16 +62,6 @@ const ProductList = () => {
     dispatch(resetFilters());
   };
 
-  const handleProductAdded = async (newProduct) => {
-    try {
-      await dispatch(addNewProduct(newProduct)).unwrap();
-      setShowAddForm(false);
-      alert("Товар успешно добавлен!");
-    } catch (error) {
-      console.error("Error adding product:", error);
-      alert("Ошибка при добавлении товара");
-    }
-  };
 
   return (
     <Box
@@ -79,34 +71,26 @@ const ProductList = () => {
         gap: 3
       }}
     >
-      <Box
-        sx={{
-          width: { md: 300 },
-          flexShrink: 0
-        }}
-      >
-        <Filters
-          onFilterChange={handleFilterChange}
-          onSortChange={handleSortChange}
-          onResetFilters={handleResetFilters}
-          filters={filters}
-          sortBy={sortBy}
-          uniquePlantTypes={uniquePlantTypes}
-          priceRange={priceRange}
-        />
-      </Box>
+      {!adminMode && (
+        <Box
+          sx={{
+            width: { md: 300 },
+            flexShrink: 0
+          }}
+        >
+          <Filters
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
+            onResetFilters={handleResetFilters}
+            filters={filters}
+            sortBy={sortBy}
+            uniquePlantTypes={uniquePlantTypes}
+            priceRange={priceRange}
+          />
+        </Box>
+      )}
 
       <Box sx={{ flexGrow: 1 }}>
-        <Button
-          variant="contained"
-          onClick={() => setShowAddForm(!showAddForm)}
-          sx={{ mb: 3 }}
-        >
-          {showAddForm ? "Скрыть форму" : "Добавить товар"}
-        </Button>
-
-        {showAddForm && <AddProductForm onProductAdded={handleProductAdded} />}
-
         {status === "loading" ? (
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <CircularProgress />
@@ -128,7 +112,7 @@ const ProductList = () => {
             >
               {products.map((product) => (
                 <Box key={product._id} sx={{ height: "100%" }}>
-                  <ProductCard product={product} />
+                  <ProductCard product={product} adminMode={adminMode} />
                 </Box>
               ))}
             </Box>

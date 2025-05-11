@@ -14,6 +14,8 @@ import CartPage from "./pages/CartPage";
 import { getUserData } from './services/api';
 import { setCredentials } from './store/slices/authSlice';
 import { loadAuthState } from './services/authPersist';
+import AdminPage from './pages/AdminPage';
+import PrivateRoute from './components/PrivateRoute';
 
 
 function App() {
@@ -43,7 +45,7 @@ function App() {
     }
   }, [dispatch]);
 
-  return (
+ return (
     <>
       <CssBaseline />
       <Container maxWidth="xl" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
@@ -52,9 +54,19 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
-          {/* <Route path="/orders" element={<OrdersPage />} /> */}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<SignIn />} />
+
+          {/* Regular user routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/user" element={<div>User Profile</div>} />
+          </Route>
+
+          {/* Admin-only routes */}
+          <Route element={<PrivateRoute adminOnly />}>
+            <Route path="/admin" element={<AdminPage />} />
+          </Route>
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

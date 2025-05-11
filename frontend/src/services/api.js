@@ -1,15 +1,16 @@
 import axios from "axios";
 
-const API_URL = process.env.NODE_ENV === 'development'
-  ? process.env.REACT_APP_API_URL
-  : process.env.REACT_APP_API_URL_PUBLIC;
+const API_URL =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_API_URL
+    : process.env.REACT_APP_API_URL_PUBLIC;
 
 // Базовый инстанс для неавторизованных запросов
 const api = axios.create({
   baseURL: `${API_URL}/api`,
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 // Инстанс для авторизованных запросов
@@ -18,8 +19,8 @@ const createAuthApi = (token) => {
     baseURL: `${API_URL}/api`,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
-    },
+      Authorization: `Bearer ${token}`
+    }
   });
 };
 
@@ -101,6 +102,8 @@ export const getUserData = async (token) => {
   try {
     const authApi = createAuthApi(token);
     const response = await authApi.get("/user");
+    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error getting user data:", error);
@@ -154,14 +157,8 @@ export const clearCart = async (token) => {
 
 export const createOrder = async (token, orderData) => {
   try {
-    const authApi = axios.create({
-      baseURL: `${API_URL}/api`,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-    });
 
+    const authApi = createAuthApi(token);
     const response = await authApi.post("/user/orders", orderData);
     return response.data;
   } catch (error) {
@@ -177,6 +174,63 @@ export const getOrders = async (token) => {
     return response.data;
   } catch (error) {
     console.error("Error getting orders:", error);
+    throw error;
+  }
+};
+export const updateProduct = async (token, productId, productData) => {
+  try {
+    const authApi = createAuthApi(token);
+    const response = await authApi.put(`/products/${productId}`, productData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating product:", error);
+    throw error;
+  }
+};
+export const deleteProduct = async (token, productId) => {
+  try {
+    const authApi = createAuthApi(token);
+    const response = await authApi.delete(`/products/${productId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw error;
+  }
+};
+
+export const fetchAllUsers = async (token) => {
+  try {
+    const authApi = createAuthApi(token);
+    const response = await authApi.get("/admin/users");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+};
+
+export const fetchAllOrders = async (token) => {
+  try {
+    const authApi = createAuthApi(token);
+    const response = await authApi.get("/admin/orders");
+    console.log(response);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    throw error;
+  }
+};
+
+export const updateOrderStatus = async (token, orderId, status) => {
+  try {
+    const authApi = createAuthApi(token);
+    const response = await authApi.put(`/admin/orders/${orderId}/status`, {
+      status
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating order status:", error);
     throw error;
   }
 };

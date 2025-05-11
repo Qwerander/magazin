@@ -6,17 +6,17 @@ import {
   Button,
   Box,
   Chip,
-  IconButton,
+  IconButton
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../store/slices/cartSlice";
 import { Add, Remove } from "@mui/icons-material";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, adminMode }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.cart.items);
-  const cartItem = cartItems.find(item => item.id === product.id);
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems.find((item) => item.id === product.id);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ const ProductCard = ({ product }) => {
         }
       }}
       component={Link}
-      to={`/product/${product.id}`}
+      to={adminMode ? '' : `/product/${product.id}`}
     >
       <CardContent
         sx={{
@@ -106,29 +106,9 @@ const ProductCard = ({ product }) => {
             <Chip key={type} label={type} size="small" />
           ))}
         </Box>
-
-        <Box sx={{ mt: "auto", display: "flex", alignItems: "center" }}>
-          {cartItem ? (
-            <>
-              <IconButton
-                color="primary"
-                onClick={handleRemoveFromCart}
-                sx={{ border: "1px solid", borderColor: "divider" }}
-              >
-                <Remove fontSize="small" />
-              </IconButton>
-              <Typography mx={1} sx={{ minWidth: 24, textAlign: "center" }}>
-                {cartItem.quantity}
-              </Typography>
-              <IconButton
-                color="primary"
-                onClick={handleAddToCart}
-                sx={{ border: "1px solid", borderColor: "divider" }}
-              >
-                <Add fontSize="small" />
-              </IconButton>
-            </>
-          ) : (
+        {adminMode ? (
+          <>
+            {" "}
             <Button
               variant="contained"
               color="success"
@@ -136,12 +116,48 @@ const ProductCard = ({ product }) => {
               sx={{
                 textTransform: "none"
               }}
-              onClick={handleAddToCart}
+              onClick={() => {}}
             >
-              В корзину
+              Редактировать
             </Button>
-          )}
-        </Box>
+          </>
+        ) : (
+          <Box sx={{ mt: "auto", display: "flex", alignItems: "center" }}>
+            {cartItem ? (
+              <>
+                <IconButton
+                  color="primary"
+                  onClick={handleRemoveFromCart}
+                  sx={{ border: "1px solid", borderColor: "divider" }}
+                >
+                  <Remove fontSize="small" />
+                </IconButton>
+                <Typography mx={1} sx={{ minWidth: 24, textAlign: "center" }}>
+                  {cartItem.quantity}
+                </Typography>
+                <IconButton
+                  color="primary"
+                  onClick={handleAddToCart}
+                  sx={{ border: "1px solid", borderColor: "divider" }}
+                >
+                  <Add fontSize="small" />
+                </IconButton>
+              </>
+            ) : (
+              <Button
+                variant="contained"
+                color="success"
+                fullWidth
+                sx={{
+                  textTransform: "none"
+                }}
+                onClick={handleAddToCart}
+              >
+                В корзину
+              </Button>
+            )}
+          </Box>
+        )}
       </CardContent>
     </Card>
   );

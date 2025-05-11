@@ -1,85 +1,53 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 class UserService {
   async getUserById(userId) {
-    return await User.findById(userId).populate('user_data.cart.productId user_data.orders.products.productId');
-  }
-
-  async addToCart(userId, productId, quantity = 1) {
-    const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    const existingItemIndex = user.user_data.cart.findIndex(
-      item => item.productId.toString() === productId.toString()
-    );
-
-    if (existingItemIndex >= 0) {
-      user.user_data.cart[existingItemIndex].quantity += quantity;
-    } else {
-      user.user_data.cart.push({ productId, quantity });
-    }
-
-    await user.save();
-    return user.user_data.cart;
-  }
-
-  async removeFromCart(userId, productId) {
-    const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    user.user_data.cart = user.user_data.cart.filter(
-      item => item.productId.toString() !== productId.toString()
-    );
-
-    await user.save();
-    return user.user_data.cart;
-  }
-
-  async updateCartItemQuantity(userId, productId, quantity) {
-    const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    const cartItem = user.user_data.cart.find(
-      item => item.productId.toString() === productId.toString()
-    );
-
-    if (cartItem) {
-      cartItem.quantity = quantity;
-      await user.save();
-    }
-
-    return user.user_data.cart;
-  }
-
-  async clearCart(userId) {
-    const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    user.user_data.cart = [];
-    await user.save();
-    return user.user_data.cart;
+    return await User.findById(userId)
+      .select("-password")
+      .populate("user_data.orders.items.productId");
   }
 
   async createOrder(userId, orderData) {
     const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     const newOrder = {
-      products: orderData.products,
+      items: orderData.items,
       totalPrice: orderData.totalPrice,
-      status: 'pending'
+      status: orderData.status || "pending",
+      createdAt: new Date()
     };
 
     user.user_data.orders.push(newOrder);
     await user.save();
-    return user.user_data.orders[user.user_data.orders.length - 1];
+
+    return await this.getUserById(userId);
   }
 
   async getOrders(userId) {
-    const user = await User.findById(userId).populate('user_data.orders.products.productId');
-    if (!user) throw new Error('User not found');
+    const user = await this.getUserById(userId);
+    if (!user) throw new Error("User not found");
 
     return user.user_data.orders;
+  }
+
+  async getAllUsers() {
+    return await User.find({}).select("-password");
+  }
+
+  async getAllOrders() {
+    const users = await User.find({ "user_data.orders.0": { $exists: true } })
+      .select("username email user_data.orders")
+      .populate("user_data.orders.items.productId");
+
+    return users.flatMap((user) =>
+      user.user_data.orders.map((order) => ({
+        ...order.toObject(),
+        userId: user._id,
+        username: user.username,
+        email: user.email
+      }))
+    );
   }
 }
 
