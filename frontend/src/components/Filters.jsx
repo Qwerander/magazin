@@ -107,14 +107,14 @@ const Filters = ({
           sx={{ mb: 3 }}
         />
 
-        <TextField
-          fullWidth
-          label="Вес"
-          name="weight"
-          value={filters.weight}
-          onChange={handleWeightChange}
-          sx={{ mb: 3 }}
-        />
+          {/* <TextField
+            fullWidth
+            label="Вес"
+            name="weight"
+            value={filters.weight}
+            onChange={handleWeightChange}
+            sx={{ mb: 3 }}
+          /> */}
 
         <Typography variant="subtitle1" sx={{ mb: 1 }}>Тип растения</Typography>
         <FormGroup>

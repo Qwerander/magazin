@@ -23,15 +23,54 @@ import {
 } from "../store/slices/cartSlice";
 import { Link as RouterLink } from "react-router-dom";
 import ThankYouModal from "../components/ThankYouModal";
+import { logout, selectCurrentToken, selectCurrentUser } from "../store/slices/authSlice";
+import { createOrder } from "../services/api";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const user = useSelector(selectCurrentUser);
+  const token = useSelector(selectCurrentToken);
   const [openModal, setOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCheckout = () => {
+const handleCheckout = async () => {
+  console.log(user);
+
+  if (!user || !token) {
+    console.error("Токен пользователя отсутствует");
+    return;
+  }
+
+  setIsLoading(true);
+  try {
+    const orderData = {
+      products: cart.items.map(item => ({
+        productId: item.id,
+        quantity: item.quantity
+      })),
+      totalPrice: cart.totalAmount
+    };
+
+    const order = await createOrder(token, orderData);
+
+
+    dispatch(clearCart());
     setOpenModal(true);
-  };
+  } catch (error) {
+    console.error("Ошибка при оформлении заказа:", error);
+    // Добавим более информативное сообщение об ошибке
+    if (error.response && error.response.status === 401) {
+      alert("Сессия истекла. Пожалуйста, войдите снова.");
+      // Можно автоматически разлогинить пользователя
+      dispatch(logout());
+    } else {
+      alert("Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.");
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -137,13 +176,25 @@ const CartPage = () => {
               >
                 Очистить корзину
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCheckout}
-              >
-                Оформить заказ
-              </Button>
+              {user ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleCheckout}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Оформление..." : "Оформить заказ"}
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={RouterLink}
+                  to="/login"
+                >
+                  Войти для оформления
+                </Button>
+              )}
             </Box>
           </Box>
         </>

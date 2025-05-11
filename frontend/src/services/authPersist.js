@@ -1,32 +1,45 @@
+import { jwtDecode } from 'jwt-decode';
+
 export const loadAuthState = () => {
-    try {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      if (!token || !userId) return undefined;
+  try {
+    const serializedState = localStorage.getItem('authState');
+    if (!serializedState) return undefined;
 
-      return {
-        auth: {
-          token,
-          user: {
-            username: localStorage.getItem('username') || 'User',
-            email: localStorage.getItem('email') || ''
-          }
-        }
-      };
-    } catch (err) {
-      return undefined;
-    }
-  };
+    const state = JSON.parse(serializedState);
 
-  export const saveAuthState = (state) => {
-    try {
-      if (state.auth.token && state.auth.user) {
-        localStorage.setItem('token', state.auth.token);
-        localStorage.setItem('userId', state.auth.user._id || '');
-        localStorage.setItem('username', state.auth.user.username || '');
-        localStorage.setItem('email', state.auth.user.email || '');
+    // Проверяем срок действия токена
+    if (state.auth?.token) {
+      const decoded = jwtDecode(state.auth.token);
+      if (decoded.exp * 1000 < Date.now()) {
+        localStorage.removeItem('authState');
+        return undefined;
       }
-    } catch (err) {
-      console.error('Error saving auth state:', err);
     }
-  };
+
+    return state;
+  } catch (err) {
+    return undefined;
+  }
+};
+
+export const saveAuthState = (state) => {
+  try {
+    const serializedState = JSON.stringify({
+      auth: {
+        user: state.auth.user,
+        token: state.auth.token,
+      }
+    });
+    localStorage.setItem('authState', serializedState);
+  } catch (err) {
+    console.error('Error saving auth state:', err);
+  }
+};
+
+export const clearAuthState = () => {
+  try {
+    localStorage.removeItem('authState');
+  } catch (err) {
+    console.error('Error clearing auth state:', err);
+  }
+};

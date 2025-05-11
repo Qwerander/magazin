@@ -7,6 +7,7 @@
         "barcode": "4604049097501",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 222
     },
     {
@@ -17,6 +18,7 @@
         "barcode": "4604049097502",
         "type_plant": ["Маленькие растения", "Большие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 549
     },
     {
@@ -27,6 +29,7 @@
         "barcode": "4604049097503",
         "type_plant": ["Маленькие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 325
     },
     {
@@ -37,6 +40,7 @@
         "barcode": "4604049097504",
         "type_plant": ["Маленькие растения", "Озеленение"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 422
     },
     {
@@ -47,6 +51,7 @@
         "barcode": "4604049097505",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 567
     },
     {
@@ -57,6 +62,7 @@
         "barcode": "4604049097506",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 115
     },
     {
@@ -67,6 +73,7 @@
         "barcode": "4604049097507",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 113
     },
     {
@@ -77,6 +84,7 @@
         "barcode": "4604049097508",
         "type_plant": ["Комнатные растения", "Озеленение"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 223
     },
     {
@@ -87,6 +95,7 @@
         "barcode": "4604049097509",
         "type_plant": ["Маленькие растения", "Большие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 488
     },
     {
@@ -97,6 +106,7 @@
         "barcode": "4604049097510",
         "type_plant": ["Маленькие растения"],
         "description":  "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 721
     },
     {
@@ -107,6 +117,7 @@
         "barcode": "4604049097511",
         "type_plant": ["Комнатные растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 229
     },
     {
@@ -117,6 +128,7 @@
         "barcode": "4604049097512",
         "type_plant": ["Маленькие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 548
     },
     {
@@ -127,6 +139,7 @@
         "barcode": "4604049097513",
         "type_plant": ["Маленькие растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 327
     },
     {
@@ -137,6 +150,7 @@
         "barcode": "4604049097514",
         "type_plant": ["Маленькие растения", "Растения для горшков", "Комнатные растения", "Озеленение"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 428
     },
     {
@@ -147,6 +161,7 @@
         "barcode": "4604049097515",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 523
     },
     {
@@ -157,6 +172,7 @@
         "barcode": "4604049097516",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 117
     },
     {
@@ -167,6 +183,7 @@
         "barcode": "4604049097517",
         "type_plant": ["Комнатные растения", "Растения для горшков"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 120
     },
     {
@@ -177,6 +194,7 @@
         "barcode": "4604049097518",
         "type_plant": ["Большие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 243
     },
     {
@@ -187,6 +205,7 @@
         "barcode": "4604049097519",
         "type_plant": ["Маленькие растения", "Большие растения"],
         "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 588
     },
     {
@@ -197,6 +216,7 @@
         "barcode": "4604049097520",
         "type_plant": ["Маленькие растения", "Растения для горшков", "Комнатные растения"],
         "description":  "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum soluta quisquam error quasi ab nostrum, iusto unde dolores et distinctio. Accusamus consectetur rem atque ad voluptatum tempore asperiores sint optio.",
+        "stock": 10,
         "price": 629
     }
 ]

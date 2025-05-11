@@ -6,10 +6,13 @@ import {
   Button,
   Divider,
   Box,
-  Link
+  Link,
+  CircularProgress
 } from '@mui/material';
 import { Google as GoogleIcon, Facebook as FacebookIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../store/slices/authSlice';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +22,8 @@ const SignUp = () => {
     confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -61,8 +66,10 @@ const SignUp = () => {
 
     if (!validate()) return;
 
+    setIsLoading(true);
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -80,12 +87,25 @@ const SignUp = () => {
         throw new Error(data.message || 'Ошибка регистрации');
       }
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userId', data.userId);
+      dispatch(setCredentials({
+        user: {
+          _id: data.userId,
+          username: data.username,
+          email: data.email,
+          user_data: {
+            cart: [],
+            orders: []
+          }
+        },
+        token: data.token
+      }));
+
       navigate('/');
     } catch (error) {
       console.error('Ошибка регистрации:', error);
       setErrors({ submit: error.message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,6 +129,7 @@ const SignUp = () => {
           onChange={handleChange}
           error={!!errors.username}
           helperText={errors.username}
+          disabled={isLoading}
         />
 
         <TextField
@@ -121,6 +142,7 @@ const SignUp = () => {
           onChange={handleChange}
           error={!!errors.email}
           helperText={errors.email}
+          disabled={isLoading}
         />
 
         <TextField
@@ -133,6 +155,7 @@ const SignUp = () => {
           onChange={handleChange}
           error={!!errors.password}
           helperText={errors.password}
+          disabled={isLoading}
         />
 
         <TextField
@@ -145,6 +168,7 @@ const SignUp = () => {
           onChange={handleChange}
           error={!!errors.confirmPassword}
           helperText={errors.confirmPassword}
+          disabled={isLoading}
         />
 
         {errors.submit && (
@@ -160,8 +184,9 @@ const SignUp = () => {
           size="large"
           type="submit"
           sx={{ mt: 3, mb: 2 }}
+          disabled={isLoading}
         >
-          Создать аккаунт
+          {isLoading ? <CircularProgress size={24} /> : 'Создать аккаунт'}
         </Button>
 
         <Divider sx={{ my: 3 }}>Или зарегистрироваться через</Divider>
@@ -172,6 +197,7 @@ const SignUp = () => {
             variant="outlined"
             startIcon={<GoogleIcon />}
             onClick={() => {}}
+            disabled={isLoading}
           >
             Google
           </Button>
@@ -181,6 +207,7 @@ const SignUp = () => {
             variant="outlined"
             startIcon={<FacebookIcon />}
             onClick={() => {}}
+            disabled={isLoading}
           >
             Facebook
           </Button>

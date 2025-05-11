@@ -13,7 +13,8 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  IconButton
+  IconButton,
+  Chip
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -169,7 +170,12 @@ const ProductPage = () => {
           </Typography>
 
           <Typography variant="body2" mt={2} color="text.secondary">
-            Категория: {product.category}
+            Категория:{" "}
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, my: 1 }}>
+              {product.type_plant?.map((type) => (
+                <Chip key={type} label={type} size="small" />
+              ))}
+            </Box>
           </Typography>
 
           <Typography variant="body2" color="text.secondary">

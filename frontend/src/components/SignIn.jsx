@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Typography,
@@ -6,12 +6,14 @@ import {
   Button,
   Divider,
   Box,
-  Link
+  Link,
+  CircularProgress
 } from '@mui/material';
 import { Google as GoogleIcon, Facebook as FacebookIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearError, setCredentials, setError } from '../store/slices/authSlice';
+import { setCredentials, setError, clearError, selectAuthError, selectAuthStatus } from '../store/slices/authSlice';
+import { getUserData } from '../services/api';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -24,9 +26,15 @@ const SignIn = () => {
     password: ''
   });
 
-  const error = useSelector((state) => state.auth.error);
+  const [isLoading, setIsLoading] = useState(false);
+  const error = useSelector(selectAuthError);
+  const status = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +46,6 @@ const SignIn = () => {
       ...localErrors,
       [name]: ''
     });
-    dispatch(clearError());
   };
 
   const validate = () => {
@@ -64,11 +71,13 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
+    setIsLoading(true);
+    dispatch(clearError());
+
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signin', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -85,16 +94,24 @@ const SignIn = () => {
         throw new Error(data.message || 'Ошибка входа');
       }
 
+      // Получаем полные данные пользователя после успешного входа
+      const userDataResponse = await getUserData(data.token);
+
       dispatch(setCredentials({
-        user: { username: data.username, email: data.email },
+        user: {
+          _id: data.userId,
+          username: data.username,
+          email: data.email,
+          user_data: userDataResponse
+        },
         token: data.token
       }));
 
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('userId', data.userId);
       navigate('/');
     } catch (error) {
       dispatch(setError(error.message));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,6 +136,7 @@ const SignIn = () => {
           onChange={handleChange}
           error={!!localErrors.email}
           helperText={localErrors.email}
+          disabled={isLoading}
         />
 
         <TextField
@@ -131,6 +149,7 @@ const SignIn = () => {
           onChange={handleChange}
           error={!!localErrors.password}
           helperText={localErrors.password}
+          disabled={isLoading}
         />
 
         {error && (
@@ -146,8 +165,9 @@ const SignIn = () => {
           size="large"
           type="submit"
           sx={{ mt: 3, mb: 2 }}
+          disabled={isLoading}
         >
-          Войти
+          {isLoading ? <CircularProgress size={24} /> : 'Войти'}
         </Button>
 
         <Divider sx={{ my: 3 }}>Или войти через</Divider>
@@ -158,6 +178,7 @@ const SignIn = () => {
             variant="outlined"
             startIcon={<GoogleIcon />}
             onClick={() => {}}
+            disabled={isLoading}
           >
             Google
           </Button>
@@ -167,6 +188,7 @@ const SignIn = () => {
             variant="outlined"
             startIcon={<FacebookIcon />}
             onClick={() => {}}
+            disabled={isLoading}
           >
             Facebook
           </Button>

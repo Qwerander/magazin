@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -49,6 +49,10 @@ const Header = () => {
   };
 
   const navItems = [{ text: "Главная", path: "/" }];
+
+  // useEffect((
+  //   dispatch
+  // ) => {})
 
   const drawer = (
     <Box sx={{ width: 250 }} role="presentation">

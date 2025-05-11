@@ -9,13 +9,15 @@ const Review = require('./models/Review');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const reviewRoutes = require('./routes/reviews');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
 app.use(cors({
   origin: ['http://localhost:3000', 'http://frontend:80'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 app.use(express.json());
 
@@ -57,6 +59,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/user', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Online Store Backend is running!');
