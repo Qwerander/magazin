@@ -33,6 +33,7 @@ services:
     environment:
       - MONGO_URI=mongodb://admin:password@mongodb:27017/?authSource=admin
       - PORT=5000
+      - JWT_SECRET=your_strong_secret_key_here
       - INIT_DB=true
     volumes:
       - ./backend:/app

@@ -20,7 +20,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout, selectCurrentUser, selectIsAdmin } from "../store/slices/authSlice";
+import {
+  logout,
+  selectCurrentUser,
+  selectIsAdmin
+} from "../store/slices/authSlice";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,21 +54,16 @@ const Header = () => {
   };
 
   // Базовые пункты меню, доступные всем
-  const baseNavItems = [
-    { text: "Главная", path: "/" }
-  ];
+  const baseNavItems = [{ text: "Главная", path: "/" }];
 
   // Пункты меню для авторизованных пользователей
   const authNavItems = [
     ...baseNavItems,
-    { text: "Мои заказы", path: "/user" }
+    { text: "Мои заказы", path: "/orders" }
   ];
 
   // Пункты меню для администратора
-  const adminNavItems = [
-    ...baseNavItems,
-    { text: "Админка", path: "/admin" }
-  ];
+  const adminNavItems = [...baseNavItems, { text: "Админка", path: "/admin" }];
 
   // Определяем какие пункты меню показывать
   const getNavItems = () => {
@@ -89,17 +88,19 @@ const Header = () => {
             <ListItemText primary={item.text} />
           </ListItem>
         ))}
-        <ListItem
-          button="true"
-          component={Link}
-          to="/cart"
-          onClick={handleDrawerToggle}
-        >
-          <ListItemText primary="Корзина" />
-          {cartItemsCount > 0 && (
-            <Badge badgeContent={cartItemsCount} color="primary" />
-          )}
-        </ListItem>
+        {!isAdmin && (
+          <ListItem
+            button="true"
+            component={Link}
+            to="/cart"
+            onClick={handleDrawerToggle}
+          >
+            <ListItemText primary="Корзина" />
+            {cartItemsCount > 0 && (
+              <Badge badgeContent={cartItemsCount} color="primary" />
+            )}
+          </ListItem>
+        )}
       </List>
       <Divider />
       <Box sx={{ p: 2 }}>
@@ -164,17 +165,18 @@ const Header = () => {
             gap: 2
           }}
         >
-          <IconButton
-            color="inherit"
-            component={Link}
-            to="/cart"
-            sx={{ mr: 1 }}
-          >
-            <Badge badgeContent={cartItemsCount} color="primary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
-
+          {!isAdmin && (
+            <IconButton
+              color="inherit"
+              component={Link}
+              to="/cart"
+              sx={{ mr: 1 }}
+            >
+              <Badge badgeContent={cartItemsCount} color="primary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          )}
           {user ? (
             <>
               <Button

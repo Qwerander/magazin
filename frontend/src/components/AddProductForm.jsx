@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -7,38 +7,46 @@ import {
   Select,
   InputLabel,
   FormControl,
-  Chip,
-} from '@mui/material';
+  Chip
+} from "@mui/material";
+import { loadProducts } from "../store/slices/productSlice";
+import { useDispatch } from "react-redux";
 
 const AddProductForm = ({ onProductAdded }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    title: '',
-    url: '',
-    weight: '',
-    barcode: '',
+    title: "",
+    url: "",
+    weight: "",
+    barcode: "",
     type_plant: [],
-    description: '',
-    price: '',
-    id: '',
-    stock: '',
+    description: "",
+    price: "",
+    id: "",
+    stock: ""
   });
 
-  const plantTypes = ["Комнатные растения", "Растения для горшков", "Садовые растения"];
+  const plantTypes = [
+    "Комнатные растения",
+    "Растения для горшков",
+    "Садовые растения"
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePlantTypeChange = (e) => {
     const { value } = e.target;
-    setFormData(prev => ({ ...prev, type_plant: value }));
+    setFormData((prev) => ({ ...prev, type_plant: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     onProductAdded(formData);
+    dispatch(loadProducts());
   };
 
   return (
@@ -89,7 +97,7 @@ const AddProductForm = ({ onProductAdded }) => {
           value={formData.type_plant}
           onChange={handlePlantTypeChange}
           renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
                 <Chip key={value} label={value} />
               ))}

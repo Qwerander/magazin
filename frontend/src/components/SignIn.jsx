@@ -105,6 +105,7 @@ const SignIn = () => {
           username: data.username,
           email: data.email,
         },
+        isAdmin: data.isAdmin,
         token: data.token
       }));
 

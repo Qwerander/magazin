@@ -14,9 +14,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
+      console.log(action.payload);
+
       state.user = action.payload.user;
       state.token = action.payload.token;
-      state.isAdmin = action.payload.user?.email === "admin@admin.ru"; // хардкод для админа
+      state.isAdmin = action.payload.isAdmin
       state.status = "succeeded";
       state.error = null;
     },

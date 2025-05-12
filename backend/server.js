@@ -1,6 +1,7 @@
 const mockData = require("./products.json");
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 const cors = require("cors");
 require("dotenv").config();
 const Product = require("./models/Products");
@@ -11,7 +12,6 @@ const productRoutes = require("./routes/products");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
-
 
 const app = express();
 
@@ -49,17 +49,20 @@ async function initializeDatabase() {
 
 async function createAdminUser() {
   const User = require("./models/User");
-  const adminExists = await User.findOne({ email: "admin@admin.admin" });
+  const adminExists = await User.findOne({ email: "admin@admin.com" });
 
   if (!adminExists) {
+    const hashedPassword = await bcrypt.hash("password", 12);
+
     const admin = new User({
-      username: "adminadmin",
-      email: "admin@admin.admin",
-      password: "password", // В реальном приложении хешируйте пароль!
+      username: "Administrator",
+      email: "admin@admin.com",
+      password: hashedPassword,
       isAdmin: true
     });
+
     await admin.save();
-    console.log("Admin user created");
+    console.log("Admin user created with hashed password");
   }
 }
 
@@ -69,10 +72,11 @@ mongoose
     useUnifiedTopology: true
   })
   .then(async () => {
-      await createAdminUser();
+
     console.log("MongoDB connected via Docker");
 
     if (process.env.INIT_DB === "true") {
+      await createAdminUser();
       await initializeDatabase();
     }
   })

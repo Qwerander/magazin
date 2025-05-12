@@ -92,11 +92,8 @@ const SignUp = () => {
           _id: data.userId,
           username: data.username,
           email: data.email,
-          user_data: {
-            cart: [],
-            orders: []
-          }
         },
+        isAdmin: data.isAdmin,
         token: data.token
       }));
 

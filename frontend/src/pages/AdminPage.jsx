@@ -150,7 +150,7 @@ const AdminPage = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
+                  <TableCell>№ Заказа</TableCell>
                   <TableCell>Пользователь</TableCell>
                   <TableCell>Товары</TableCell>
                   <TableCell>Сумма</TableCell>
@@ -161,7 +161,7 @@ const AdminPage = () => {
               <TableBody>
                 {orders.map((order) => (
                   <TableRow key={order._id}>
-                    <TableCell>{order._id.substring(0, 6)}...</TableCell>
+                    <TableCell>#{order._id.slice(-6).toUpperCase()}</TableCell>
                     <TableCell>
                       {order.username || 'Неизвестный пользователь'}
                     </TableCell>

@@ -28,6 +28,7 @@ export const saveAuthState = (state) => {
       auth: {
         user: state.auth.user,
         token: state.auth.token,
+        isAdmin: state.auth.isAdmin
       }
     });
     localStorage.setItem('authState', serializedState);
