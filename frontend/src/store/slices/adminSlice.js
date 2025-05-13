@@ -1,14 +1,14 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   fetchAllUsers,
   fetchAllOrders,
   updateOrderStatus,
   updateProduct,
   deleteProduct
-} from '../../services/api';
+} from "../../services/api";
 
 export const loadAllUsers = createAsyncThunk(
-  'admin/loadAllUsers',
+  "admin/loadAllUsers",
   async (token, { rejectWithValue }) => {
     try {
       return await fetchAllUsers(token);
@@ -19,7 +19,7 @@ export const loadAllUsers = createAsyncThunk(
 );
 
 export const loadAllOrders = createAsyncThunk(
-  'admin/loadAllOrders',
+  "admin/loadAllOrders",
   async (token, { rejectWithValue }) => {
     try {
       return await fetchAllOrders(token);
@@ -30,7 +30,7 @@ export const loadAllOrders = createAsyncThunk(
 );
 
 export const changeOrderStatus = createAsyncThunk(
-  'admin/changeOrderStatus',
+  "admin/changeOrderStatus",
   async ({ token, orderId, status }, { rejectWithValue }) => {
     try {
       return await updateOrderStatus(token, orderId, status);
@@ -41,7 +41,7 @@ export const changeOrderStatus = createAsyncThunk(
 );
 
 export const editProduct = createAsyncThunk(
-  'admin/editProduct',
+  "admin/editProduct",
   async ({ token, productId, productData }, { rejectWithValue }) => {
     try {
       return await updateProduct(token, productId, productData);
@@ -52,7 +52,7 @@ export const editProduct = createAsyncThunk(
 );
 
 export const removeProduct = createAsyncThunk(
-  'admin/removeProduct',
+  "admin/removeProduct",
   async ({ token, productId }, { rejectWithValue }) => {
     try {
       await deleteProduct(token, productId);
@@ -66,57 +66,54 @@ export const removeProduct = createAsyncThunk(
 const initialState = {
   users: [],
   orders: [],
-  status: 'idle',
+  status: "idle",
   error: null
 };
 
 const adminSlice = createSlice({
-  name: 'admin',
+  name: "admin",
   initialState,
   reducers: {
     resetAdminState: () => initialState
   },
   extraReducers: (builder) => {
     builder
-      // Загрузка пользователей
       .addCase(loadAllUsers.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
         state.error = null;
       })
       .addCase(loadAllUsers.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.users = action.payload;
       })
       .addCase(loadAllUsers.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
-
-      // Загрузка заказов
       .addCase(loadAllOrders.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
         state.error = null;
       })
       .addCase(loadAllOrders.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.orders = action.payload;
       })
       .addCase(loadAllOrders.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
-
-      // Обновление статуса заказа
       .addCase(changeOrderStatus.fulfilled, (state, action) => {
-        const index = state.orders.findIndex(order => order._id === action.payload._id);
+        const index = state.orders.findIndex(
+          (order) => order._id === action.payload._id
+        );
         if (index !== -1) {
           state.orders[index] = action.payload;
         }
       })
-
-      // Удаление товара
       .addCase(removeProduct.fulfilled, (state, action) => {
-        state.products = state.products.filter(product => product._id !== action.payload);
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload
+        );
       });
   }
 });

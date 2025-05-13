@@ -1,17 +1,10 @@
-import React, { useEffect } from "react";
-import {
-  Button,
-  Pagination,
-  Typography,
-  Box,
-  CircularProgress
-} from "@mui/material";
+import { useEffect } from "react";
+import { Pagination, Typography, Box, CircularProgress } from "@mui/material";
 import ProductCard from "./ProductCard";
 import Filters from "./Filters";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadProducts,
-  addNewProduct,
   selectAllProducts,
   selectProductsStatus,
   selectProductsFilters,
@@ -27,7 +20,6 @@ import {
 } from "../store/slices/productSlice";
 
 const ProductList = ({ adminMode = false }) => {
-  const [showAddForm, setShowAddForm] = React.useState(false);
   const products = useSelector(selectAllProducts);
   const status = useSelector(selectProductsStatus);
   const filters = useSelector(selectProductsFilters);
@@ -42,7 +34,7 @@ const ProductList = ({ adminMode = false }) => {
     if (!adminMode) {
       dispatch(loadProducts());
     }
-  }, [dispatch]);
+  }, [dispatch, adminMode]);
 
   const handleFilterChange = (newFilters) => {
     dispatch(setFilters(newFilters));
@@ -60,7 +52,6 @@ const ProductList = ({ adminMode = false }) => {
   const handleResetFilters = () => {
     dispatch(resetFilters());
   };
-
 
   return (
     <Box

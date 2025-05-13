@@ -1,17 +1,16 @@
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 export const loadAuthState = () => {
   try {
-    const serializedState = localStorage.getItem('authState');
+    const serializedState = localStorage.getItem("authState");
     if (!serializedState) return undefined;
 
     const state = JSON.parse(serializedState);
 
-    // Проверяем срок действия токена
     if (state.auth?.token) {
       const decoded = jwtDecode(state.auth.token);
       if (decoded.exp * 1000 < Date.now()) {
-        localStorage.removeItem('authState');
+        localStorage.removeItem("authState");
         return undefined;
       }
     }
@@ -31,16 +30,16 @@ export const saveAuthState = (state) => {
         isAdmin: state.auth.isAdmin
       }
     });
-    localStorage.setItem('authState', serializedState);
+    localStorage.setItem("authState", serializedState);
   } catch (err) {
-    console.error('Error saving auth state:', err);
+    console.error("Error saving auth state:", err);
   }
 };
 
 export const clearAuthState = () => {
   try {
-    localStorage.removeItem('authState');
+    localStorage.removeItem("authState");
   } catch (err) {
-    console.error('Error clearing auth state:', err);
+    console.error("Error clearing auth state:", err);
   }
 };

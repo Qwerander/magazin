@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -58,7 +58,6 @@ const ProductCard = ({ product, adminMode }) => {
     setEditModalOpen(false);
   };
 
-  // В ProductCard.jsx замените handleUpdateProduct на:
   const handleUpdateProduct = async (productData) => {
     try {
       await dispatch(

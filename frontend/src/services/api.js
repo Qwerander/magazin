@@ -5,7 +5,6 @@ const API_URL =
     ? process.env.REACT_APP_API_URL
     : process.env.REACT_APP_API_URL_PUBLIC;
 
-// Базовый инстанс для неавторизованных запросов
 const api = axios.create({
   baseURL: `${API_URL}/api`,
   headers: {
@@ -13,7 +12,6 @@ const api = axios.create({
   }
 });
 
-// Инстанс для авторизованных запросов
 const createAuthApi = (token) => {
   return axios.create({
     baseURL: `${API_URL}/api`,
@@ -24,7 +22,6 @@ const createAuthApi = (token) => {
   });
 };
 
-// Функции для неавторизованных запросов
 export const fetchProducts = async (filters = {}) => {
   const { type_plant, minPrice, maxPrice, sortBy, weight } = filters;
   const params = new URLSearchParams();
@@ -74,7 +71,6 @@ export const fetchReviews = async (productId) => {
   }
 };
 
-// Функции для авторизованных запросов
 export const addReview = async (token, productId, reviewData) => {
   try {
     const authApi = createAuthApi(token);
@@ -101,12 +97,10 @@ export const createProduct = async (token, productData) => {
   }
 };
 
-// Функции для работы с корзиной и заказами
 export const getUserData = async (token) => {
   try {
     const authApi = createAuthApi(token);
     const response = await authApi.get("/user");
-    console.log(response.data);
 
     return response.data;
   } catch (error) {
@@ -180,6 +174,7 @@ export const getOrders = async (token) => {
     throw error;
   }
 };
+
 export const updateProduct = async (token, productId, productData) => {
   try {
     const authApi = createAuthApi(token);
@@ -190,6 +185,7 @@ export const updateProduct = async (token, productId, productData) => {
     throw error;
   }
 };
+
 export const deleteProduct = async (token, productId) => {
   try {
     const authApi = createAuthApi(token);
@@ -216,7 +212,6 @@ export const fetchAllOrders = async (token) => {
   try {
     const authApi = createAuthApi(token);
     const response = await authApi.get("/admin/orders");
-    console.log(response);
 
     return response.data;
   } catch (error) {

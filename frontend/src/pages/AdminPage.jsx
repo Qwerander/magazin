@@ -1,5 +1,4 @@
-// pages/AdminPage.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
@@ -18,11 +17,8 @@ import {
   Paper,
   Select,
   MenuItem,
-  FormControl,
-  InputLabel,
-  IconButton
+  FormControl
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
 import {
   loadAllUsers,
   loadAllOrders,
@@ -60,12 +56,10 @@ const AdminPage = () => {
   const isAdmin = useSelector(selectIsAdmin);
   const dispatch = useDispatch();
 
-  // Products state
   const { status: productsStatus, error: productsError } = useSelector(
     (state) => state.products
   );
 
-  // Admin state
   const users = useSelector(selectAllUsers);
   const orders = useSelector(selectAllOrders);
   const adminStatus = useSelector(selectAdminStatus);
@@ -87,7 +81,6 @@ const AdminPage = () => {
     setValue(newValue);
   };
 
-  // В AdminPage.jsx замените handleProductAdded на:
   const handleProductAdded = async (newProduct) => {
     try {
       await dispatch(
@@ -98,7 +91,7 @@ const AdminPage = () => {
       ).unwrap();
       setShowAddForm(false);
       alert("Товар успешно добавлен!");
-      dispatch(loadProducts()); // Обновляем список товаров
+      dispatch(loadProducts());
     } catch (error) {
       console.error("Error adding product:", error);
       alert(`Ошибка при добавлении товара: ${error.message}`);
@@ -186,8 +179,7 @@ const AdminPage = () => {
                     <TableCell>
                       {order.items.map((item) => (
                         <Box key={item._id} sx={{ mb: 1 }}>
-                          {item.title}: {item.quantity} ×{" "}
-                          {item.price} ₽
+                          {item.title}: {item.quantity} × {item.price} ₽
                         </Box>
                       ))}
                     </TableCell>

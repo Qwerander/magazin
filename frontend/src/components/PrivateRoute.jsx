@@ -1,7 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
-import { selectCurrentToken, selectIsAdmin } from '../store/slices/authSlice';
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
+import { selectCurrentToken, selectIsAdmin } from "../store/slices/authSlice";
 
 const PrivateRoute = ({ adminOnly = false }) => {
   const token = useSelector(selectCurrentToken);

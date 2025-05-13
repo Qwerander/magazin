@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
 import ProductList from "../components/ProductList";
 
@@ -12,9 +11,9 @@ const HomePage = () => {
             fontWeight: "bold",
             mb: 2,
             fontSize: {
-              xs: "2rem", // мобильные (extra small) - ~32px
-              sm: "3rem", // планшеты (small) - ~48px
-              md: "3.75rem" // десктопы (medium) - ~60px (стандартный h2)
+              xs: "2rem",
+              sm: "3rem",
+              md: "3.75rem"
             }
           }}
         >

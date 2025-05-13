@@ -6,7 +6,6 @@ export const loadUserData = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const data = await getUserData(token);
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -24,7 +23,7 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: { },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loadUserData.pending, (state) => {
@@ -41,7 +40,7 @@ const userSlice = createSlice({
   }
 });
 
-export const {} = userSlice.actions;
+// export const {} = userSlice.actions;
 
 export default userSlice.reducer;
 

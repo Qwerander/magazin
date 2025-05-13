@@ -1,17 +1,16 @@
-import React from 'react';
-import { Box, Container, Typography, Link } from '@mui/material';
-import { Email, Phone } from '@mui/icons-material';
+import { Box, Container, Typography, Link } from "@mui/material";
+import { Email, Phone } from "@mui/icons-material";
 
 const Footer = () => {
   return (
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#f5f5f5',
+        backgroundColor: "#f5f5f5",
         py: 3,
         margin: "auto auto 0",
         maxWidth: 1200,
-        width: '100%'
+        width: "100%"
       }}
     >
       <Container maxWidth="md">
@@ -19,10 +18,10 @@ const Footer = () => {
           variant="h6"
           component="div"
           sx={{
-            fontWeight: 'bold',
-            textAlign: 'center',
+            fontWeight: "bold",
+            textAlign: "center",
             mb: 3,
-            color: 'primary.main'
+            color: "primary.main"
           }}
         >
           GREENSHOP
@@ -30,10 +29,10 @@ const Footer = () => {
 
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: "space-between",
+            alignItems: "center",
             gap: 2
           }}
         >
@@ -45,11 +44,17 @@ const Footer = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', sm: 'flex-end' } }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: { xs: "center", sm: "flex-end" }
+            }}
+          >
             <Link
               href="mailto:contact@greenshop.com"
               color="inherit"
-              sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
             >
               <Email sx={{ mr: 1 }} />
               contact@greenshop.com
@@ -58,7 +63,7 @@ const Footer = () => {
             <Link
               href="tel:+8801911717490"
               color="inherit"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              sx={{ display: "flex", alignItems: "center" }}
             >
               <Phone sx={{ mr: 1 }} />
               +88 01911 717 490

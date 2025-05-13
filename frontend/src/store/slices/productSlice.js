@@ -1,4 +1,3 @@
-// store/slices/productSlice.js
 import {
   createSlice,
   createAsyncThunk,
@@ -11,7 +10,6 @@ import {
   deleteProduct
 } from "../../services/api";
 
-// Асинхронные Thunks
 export const loadProducts = createAsyncThunk(
   "products/loadProducts",
   async (_, { rejectWithValue }) => {
@@ -28,7 +26,6 @@ export const addNewProduct = createAsyncThunk(
   "products/addNewProduct",
   async ({ productData, token }, { rejectWithValue }) => {
     try {
-      console.log(productData);
 
       const dataToSend = {
         ...productData,
@@ -42,15 +39,9 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
-// В productSlice.js обновим updateExistingProduct и removeProduct:
-
 export const updateExistingProduct = createAsyncThunk(
   "products/updateProduct",
   async ({ token, productId, productData }, { rejectWithValue }) => {
-    console.log(token);
-    console.log(productId);
-    console.log(productData);
-
     try {
       const updatedProduct = await updateProduct(token, productId, productData);
       return updatedProduct;
@@ -63,8 +54,6 @@ export const updateExistingProduct = createAsyncThunk(
 export const removeProduct = createAsyncThunk(
   "products/deleteProduct",
   async ({ token, productId }, { rejectWithValue }) => {
-        console.log(token);
-    console.log(productId);
     try {
       await deleteProduct(token, productId);
       return productId;
@@ -74,32 +63,27 @@ export const removeProduct = createAsyncThunk(
   }
 );
 
-// Вспомогательная функция для фильтрации и сортировки
 const applyFiltersAndSorting = (state) => {
   let filteredItems = [...state.allItems];
 
-  // Фильтрация по цене
   filteredItems = filteredItems.filter(
     (item) =>
       item.price >= state.filters.priceRange[0] &&
       item.price <= state.filters.priceRange[1]
   );
 
-  // Фильтрация по весу
   if (state.filters.weight) {
     filteredItems = filteredItems.filter((item) =>
       item.weight.includes(state.filters.weight)
     );
   }
 
-  // Фильтрация по типу растения
   if (state.filters.type_plant.length > 0) {
     filteredItems = filteredItems.filter((item) =>
       item.type_plant.some((type) => state.filters.type_plant.includes(type))
     );
   }
 
-  // Сортировка
   if (state.sortBy === "price_asc") {
     filteredItems.sort((a, b) => a.price - b.price);
   } else if (state.sortBy === "price_desc") {
@@ -109,7 +93,6 @@ const applyFiltersAndSorting = (state) => {
   state.items = filteredItems;
 };
 
-// Начальное состояние
 const initialState = {
   items: [],
   allItems: [],
@@ -128,7 +111,6 @@ const initialState = {
   maxPrice: 1000
 };
 
-// Создание slice
 const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -166,13 +148,11 @@ const productsSlice = createSlice({
         state.status = "succeeded";
         state.allItems = action.payload;
 
-        // Расчет цен
         const prices = action.payload.map((p) => p.price);
         state.minPrice = Math.min(...prices);
         state.maxPrice = Math.max(...prices);
         state.filters.priceRange = [state.minPrice, state.maxPrice];
 
-        // Уникальные типы растений
         const allTypes = action.payload.flatMap(
           (product) => product.type_plant
         );
@@ -187,12 +167,10 @@ const productsSlice = createSlice({
       .addCase(addNewProduct.fulfilled, (state, action) => {
         state.allItems.unshift(action.payload);
 
-        // Обновление цен
         const newPrice = action.payload.price;
         if (newPrice < state.minPrice) state.minPrice = newPrice;
         if (newPrice > state.maxPrice) state.maxPrice = newPrice;
 
-        // Обновление типов растений
         const newTypes = action.payload.type_plant.filter(
           (type) => !state.uniquePlantTypes.includes(type)
         );
@@ -210,12 +188,10 @@ const productsSlice = createSlice({
           state.allItems[index] = action.payload;
         }
 
-        // Пересчет цен
         const prices = state.allItems.map((p) => p.price);
         state.minPrice = Math.min(...prices);
         state.maxPrice = Math.max(...prices);
 
-        // Обновление типов растений
         const allTypes = state.allItems.flatMap(
           (product) => product.type_plant
         );
@@ -228,7 +204,6 @@ const productsSlice = createSlice({
           (item) => item._id !== action.payload
         );
 
-        // Пересчет цен
         if (state.allItems.length > 0) {
           const prices = state.allItems.map((p) => p.price);
           state.minPrice = Math.min(...prices);
@@ -238,7 +213,6 @@ const productsSlice = createSlice({
           state.maxPrice = 1000;
         }
 
-        // Обновление типов растений
         const allTypes = state.allItems.flatMap(
           (product) => product.type_plant
         );

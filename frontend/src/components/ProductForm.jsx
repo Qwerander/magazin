@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -7,16 +7,9 @@ import {
   Select,
   InputLabel,
   FormControl,
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  IconButton
+  Chip
 } from "@mui/material";
-import { Delete, Close } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { updateExistingProduct, removeProduct } from "../store/slices/productSlice";
+import { Delete } from "@mui/icons-material";
 
 const ProductForm = ({
   product = null,
@@ -41,7 +34,7 @@ const ProductForm = ({
     "Маленькие растения",
     "Большие растения",
     "Озеленение",
-    "Садовые растения",
+    "Садовые растения"
   ];
 
   useEffect(() => {
@@ -69,31 +62,28 @@ const ProductForm = ({
     setFormData((prev) => ({ ...prev, type_plant: value }));
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  // Проверяем, что все обязательные поля заполнены
-  if (
-    !formData.title ||
-    !formData.url ||
-    !formData.weight ||
-    !formData.barcode ||
-    formData.type_plant.length === 0 ||
-    !formData.description ||
-    !formData.price ||
-    !formData.stock
-  ) {
-    alert("Пожалуйста, заполните все обязательные поля");
-    return;
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      !formData.title ||
+      !formData.url ||
+      !formData.weight ||
+      !formData.barcode ||
+      formData.type_plant.length === 0 ||
+      !formData.description ||
+      !formData.price ||
+      !formData.stock
+    ) {
+      alert("Пожалуйста, заполните все обязательные поля");
+      return;
+    }
 
-  onSubmit({
-    ...formData,
-    price: Number(formData.price),
-    stock: Number(formData.stock)
-  });
-  console.log(formData);
-
-};
+    onSubmit({
+      ...formData,
+      price: Number(formData.price),
+      stock: Number(formData.stock)
+    });
+  };
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
@@ -197,7 +187,7 @@ const handleSubmit = (e) => {
         sx={{ mb: 2 }}
       />
 
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         {product && (
           <Button
             variant="contained"
@@ -210,18 +200,11 @@ const handleSubmit = (e) => {
         )}
 
         <Box>
-          <Button
-            variant="outlined"
-            onClick={onClose}
-            sx={{ mr: 2 }}
-          >
+          <Button variant="outlined" onClick={onClose} sx={{ mr: 2 }}>
             Отмена
           </Button>
-          <Button
-            type="submit"
-            variant="contained"
-          >
-            {product ? 'Сохранить' : 'Добавить'}
+          <Button type="submit" variant="contained">
+            {product ? "Сохранить" : "Добавить"}
           </Button>
         </Box>
       </Box>

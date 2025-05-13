@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -10,14 +10,13 @@ import {
   Divider,
   Typography,
   Slider,
-  TextField,
   Select,
   MenuItem,
   useMediaQuery,
   useTheme
 } from "@mui/material";
-import FilterListIcon from '@mui/icons-material/FilterList';
-import CloseIcon from '@mui/icons-material/Close';
+import FilterListIcon from "@mui/icons-material/FilterList";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Filters = ({
   onFilterChange,
@@ -29,20 +28,16 @@ const Filters = ({
   priceRange
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handlePriceChange = (event, newValue) => {
     onFilterChange({ priceRange: newValue });
   };
 
-  const handleWeightChange = (e) => {
-    onFilterChange({ weight: e.target.value });
-  };
-
   const handlePlantTypeChange = (type) => {
     const newTypes = filters.type_plant.includes(type)
-      ? filters.type_plant.filter(t => t !== type)
+      ? filters.type_plant.filter((t) => t !== type)
       : [...filters.type_plant, type];
     onFilterChange({ type_plant: newTypes });
   };
@@ -75,7 +70,14 @@ const Filters = ({
           ModalProps={{ keepMounted: true }}
         >
           <Box sx={{ width: 280, p: 2 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2
+              }}
+            >
               <Typography variant="h6">Фильтры</Typography>
               <IconButton onClick={handleDrawerToggle}>
                 <CloseIcon />
@@ -97,7 +99,9 @@ const Filters = ({
       <>
         <Divider sx={{ my: 2 }} />
 
-        <Typography gutterBottom>Цена: {filters.priceRange[0]} - {filters.priceRange[1]} ₽</Typography>
+        <Typography gutterBottom>
+          Цена: {filters.priceRange[0]} - {filters.priceRange[1]} ₽
+        </Typography>
         <Slider
           value={filters.priceRange}
           onChange={handlePriceChange}
@@ -107,16 +111,9 @@ const Filters = ({
           sx={{ mb: 3 }}
         />
 
-          {/* <TextField
-            fullWidth
-            label="Вес"
-            name="weight"
-            value={filters.weight}
-            onChange={handleWeightChange}
-            sx={{ mb: 3 }}
-          /> */}
-
-        <Typography variant="subtitle1" sx={{ mb: 1 }}>Тип растения</Typography>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          Тип растения
+        </Typography>
         <FormGroup>
           {uniquePlantTypes.map((type) => (
             <FormControlLabel

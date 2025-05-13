@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Typography,
@@ -14,26 +14,26 @@ import {
   Chip,
   CircularProgress,
   Alert
-} from '@mui/material';
-import { loadUserData } from '../store/slices/userSlice';
-import { selectUserOrders, selectUserStatus, selectUserError } from '../store/slices/userSlice';
+} from "@mui/material";
+import { loadUserData } from "../store/slices/userSlice";
+import {
+  selectUserOrders,
+  selectUserStatus,
+  selectUserError
+} from "../store/slices/userSlice";
 
 const OrdersPage = () => {
   const dispatch = useDispatch();
-   const token = useSelector((state) => state.auth.token);
+  const token = useSelector((state) => state.auth.token);
   const orders = useSelector(selectUserOrders);
   const status = useSelector(selectUserStatus);
   const error = useSelector(selectUserError);
 
-  console.log(orders);
-
-
-  // Загружаем данные пользователя при монтировании
   useEffect(() => {
     dispatch(loadUserData(token));
-  }, [dispatch]);
+  }, [dispatch, token]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <Box display="flex" justifyContent="center" mt={4}>
         <CircularProgress />
@@ -59,35 +59,33 @@ const OrdersPage = () => {
     );
   }
 
-  // Функция для форматирования даты
   const formatDate = (dateString) => {
     const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
     };
-    return new Date(dateString).toLocaleDateString('ru-RU', options);
+    return new Date(dateString).toLocaleDateString("ru-RU", options);
   };
 
-  // Функция для определения цвета статуса
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
-      case 'completed':
-      case 'выполнен':
-        return 'success';
-      case 'processing':
-      case 'в обработке':
-        return 'info';
-      case 'cancelled':
-      case 'отменен':
-        return 'error';
-      case 'shipped':
-      case 'отправлен':
-        return 'warning';
+      case "completed":
+      case "выполнен":
+        return "success";
+      case "processing":
+      case "в обработке":
+        return "info";
+      case "cancelled":
+      case "отменен":
+        return "error";
+      case "shipped":
+      case "отправлен":
+        return "warning";
       default:
-        return 'default';
+        return "default";
     }
   };
 
@@ -100,12 +98,12 @@ const OrdersPage = () => {
       <TableContainer component={Paper} elevation={3}>
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-              <TableCell sx={{ fontWeight: 'bold' }}>№ Заказа</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Дата</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Товары</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Сумма</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Статус</TableCell>
+            <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell sx={{ fontWeight: "bold" }}>№ Заказа</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Дата</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Товары</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Сумма</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Статус</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -117,7 +115,7 @@ const OrdersPage = () => {
                   {order.items.map((item) => (
                     <Box key={item.productId?._id || item._id} sx={{ mb: 1 }}>
                       <Typography>
-                        {item.productId?.name || 'Товар'} × {item.quantity}
+                        {item.productId?.name || "Товар"} × {item.quantity}
                       </Typography>
                       {item.productId?.price && (
                         <Typography variant="body2" color="text.secondary">

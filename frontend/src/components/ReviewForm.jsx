@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextField, Button, Box, Rating, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../store/slices/authSlice"; // Предполагается, что у вас есть такой селектор
+import { selectCurrentUser } from "../store/slices/authSlice";
 
 const ReviewForm = ({ onSubmit }) => {
   const [review, setReview] = useState({
     rating: 5,
-    comment: "",
+    comment: ""
   });
 
-  const user = useSelector(selectCurrentUser); // Получаем данные пользователя из хранилища
+  const user = useSelector(selectCurrentUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Добавляем имя пользователя из store к данным отзыва
+
     onSubmit({
       ...review,
-      userName: user.username, // или user.name, в зависимости от структуры вашего store
+      userName: user.username
     });
     setReview({ rating: 5, comment: "" });
   };
@@ -24,7 +24,7 @@ const ReviewForm = ({ onSubmit }) => {
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
       <Typography variant="subtitle1" sx={{ mb: 1 }}>
-        От имени: {user.username} {/* Показываем имя пользователя */}
+        От имени: {user.username}
       </Typography>
       <Rating
         value={review.rating}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchProductById, fetchReviews, addReview } from "../services/api";
 import {
@@ -18,9 +18,11 @@ import {
 import { Add, Remove } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../store/slices/cartSlice";
-import { selectCurrentToken, selectCurrentUser } from "../store/slices/authSlice";
+import {
+  selectCurrentToken,
+  selectCurrentUser
+} from "../store/slices/authSlice";
 import ReviewForm from "../components/ReviewForm";
-
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -57,7 +59,7 @@ const ProductPage = () => {
     try {
       const newReview = await addReview(token, id, {
         ...reviewData,
-        userName: user.username // Используем имя пользователя из store
+        userName: user.username
       });
       setReviews([...reviews, newReview]);
     } catch (err) {
@@ -105,7 +107,7 @@ const ProductPage = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: '100%' }}>
+    <Box sx={{ maxWidth: 1200, margin: "0 auto", p: 3, width: "100%" }}>
       <Typography variant="h4" gutterBottom>
         {product.title}
       </Typography>
@@ -165,13 +167,19 @@ const ProductPage = () => {
             {product.description}
           </Typography>
 
-          <Box sx={{ display: "flex", flexDirection: 'column', alignItems: 'start', gap: 0.5, my: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+              gap: 0.5,
+              my: 1
+            }}
+          >
             <Typography variant="body2" mt={2} color="text.secondary">
               Категория:{" "}
             </Typography>
-            <Box
-              sx={{ display: "flex", flexWrap: 'wrap', gap: 0.5, my: 1 }}
-            >
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, my: 1 }}>
               {product.type_plant?.map((type) => (
                 <Chip key={type} label={type} size="small" />
               ))}
@@ -192,7 +200,7 @@ const ProductPage = () => {
         {token ? (
           <ReviewForm onSubmit={handleReviewSubmit} />
         ) : (
-          <Box sx={{ textAlign: 'center', py: 3 }}>
+          <Box sx={{ textAlign: "center", py: 3 }}>
             <Typography variant="body1" gutterBottom>
               Войдите, чтобы оставить отзыв
             </Typography>
@@ -210,7 +218,7 @@ const ProductPage = () => {
         {reviews.length > 0 ? (
           <List>
             {reviews.map((review) => (
-              <React.Fragment key={review._id}>
+              <Fragment key={review._id}>
                 <ListItem alignItems="flex-start">
                   <ListItemText
                     primary={review.userName}
@@ -232,7 +240,7 @@ const ProductPage = () => {
                   />
                 </ListItem>
                 <Divider component="li" />
-              </React.Fragment>
+              </Fragment>
             ))}
           </List>
         ) : (

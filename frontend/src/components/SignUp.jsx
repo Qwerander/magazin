@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 import {
   Container,
   Typography,
@@ -8,18 +8,21 @@ import {
   Box,
   Link,
   CircularProgress
-} from '@mui/material';
-import { Google as GoogleIcon, Facebook as FacebookIcon } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setCredentials } from '../store/slices/authSlice';
+} from "@mui/material";
+import {
+  Google as GoogleIcon,
+  Facebook as FacebookIcon
+} from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/slices/authSlice";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -38,23 +41,23 @@ const SignUp = () => {
     const newErrors = {};
 
     if (!formData.username.trim()) {
-      newErrors.username = 'Имя пользователя обязательно';
+      newErrors.username = "Имя пользователя обязательно";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email обязателен';
+      newErrors.email = "Email обязателен";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Некорректный email';
+      newErrors.email = "Некорректный email";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Пароль обязателен';
+      newErrors.password = "Пароль обязателен";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Пароль должен быть не менее 6 символов';
+      newErrors.password = "Пароль должен быть не менее 6 символов";
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Пароли не совпадают';
+      newErrors.confirmPassword = "Пароли не совпадают";
     }
 
     setErrors(newErrors);
@@ -69,37 +72,42 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password
+          })
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Ошибка регистрации');
+        throw new Error(data.message || "Ошибка регистрации");
       }
 
-      dispatch(setCredentials({
-        user: {
-          _id: data.userId,
-          username: data.username,
-          email: data.email,
-        },
-        isAdmin: data.isAdmin,
-        token: data.token
-      }));
+      dispatch(
+        setCredentials({
+          user: {
+            _id: data.userId,
+            username: data.username,
+            email: data.email
+          },
+          isAdmin: data.isAdmin,
+          token: data.token
+        })
+      );
 
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Ошибка регистрации:', error);
+      console.error("Ошибка регистрации:", error);
       setErrors({ submit: error.message });
     } finally {
       setIsLoading(false);
@@ -108,7 +116,13 @@ const SignUp = () => {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8, mb: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center" color="primary">
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+        align="center"
+        color="primary"
+      >
         GREENSHOP
       </Typography>
 
@@ -183,12 +197,12 @@ const SignUp = () => {
           sx={{ mt: 3, mb: 2 }}
           disabled={isLoading}
         >
-          {isLoading ? <CircularProgress size={24} /> : 'Создать аккаунт'}
+          {isLoading ? <CircularProgress size={24} /> : "Создать аккаунт"}
         </Button>
 
         <Divider sx={{ my: 3 }}>Или зарегистрироваться через</Divider>
 
-        <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+        <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
           <Button
             fullWidth
             variant="outlined"
@@ -211,7 +225,7 @@ const SignUp = () => {
         </Box>
 
         <Typography align="center">
-          Уже есть аккаунт?{' '}
+          Уже есть аккаунт?{" "}
           <Link href="/login" underline="hover">
             Войти
           </Link>

@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Box, Typography, Button, Modal } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { clearCart } from '../store/slices/cartSlice';
+import { useEffect } from "react";
+import ReactDOM from "react-dom";
+import { Box, Typography, Button, Modal } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../store/slices/cartSlice";
 
 const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
-  textAlign: 'center'
+  textAlign: "center"
 };
 
 const ThankYouModal = ({ open, onClose }) => {
@@ -40,17 +40,12 @@ const ThankYouModal = ({ open, onClose }) => {
         <Typography variant="body1" sx={{ mb: 3 }}>
           Ваш заказ успешно оформлен. Мы свяжемся с вами в ближайшее время.
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onClose}
-          fullWidth
-        >
+        <Button variant="contained" color="primary" onClick={onClose} fullWidth>
           Закрыть
         </Button>
       </Box>
     </Modal>,
-    document.getElementById('modal-root')
+    document.getElementById("modal-root")
   );
 };
 

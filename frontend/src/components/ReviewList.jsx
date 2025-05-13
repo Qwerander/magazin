@@ -1,11 +1,11 @@
-import React from "react";
+import { Fragment } from "react";
 import { List, ListItem, Typography, Divider, Rating } from "@mui/material";
 
 const ReviewList = ({ reviews }) => {
   return (
     <List>
       {reviews.map((review) => (
-        <React.Fragment key={review._id}>
+        <Fragment key={review._id}>
           <ListItem alignItems="flex-start">
             <div>
               <Typography fontWeight="bold">{review.userName}</Typography>
@@ -14,7 +14,7 @@ const ReviewList = ({ reviews }) => {
             </div>
           </ListItem>
           <Divider />
-        </React.Fragment>
+        </Fragment>
       ))}
     </List>
   );
