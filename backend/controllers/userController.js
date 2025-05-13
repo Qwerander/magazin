@@ -1,4 +1,4 @@
-const userService = require('../services/userService');
+const userService = require("../services/userService");
 
 exports.getUserData = async (req, res) => {
   try {
@@ -12,7 +12,11 @@ exports.getUserData = async (req, res) => {
 exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
-    const cart = await userService.addToCart(req.user.userId, productId, quantity);
+    const cart = await userService.addToCart(
+      req.user.userId,
+      productId,
+      quantity
+    );
     res.json(cart);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -33,7 +37,11 @@ exports.updateCartItem = async (req, res) => {
   try {
     const { productId } = req.params;
     const { quantity } = req.body;
-    const cart = await userService.updateCartItemQuantity(req.user.userId, productId, quantity);
+    const cart = await userService.updateCartItemQuantity(
+      req.user.userId,
+      productId,
+      quantity
+    );
     res.json(cart);
   } catch (err) {
     res.status(400).json({ error: err.message });

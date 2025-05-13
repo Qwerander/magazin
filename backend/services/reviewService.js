@@ -7,7 +7,8 @@ class ReviewService {
     await review.save();
 
     const reviews = await this.getReviewsByProduct(productId);
-    const avgRating = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+    const avgRating =
+      reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
     await productService.updateProductRating(productId, avgRating);
 
     return review;

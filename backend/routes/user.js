@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const {
   getUserData,
@@ -8,17 +8,17 @@ const {
   clearCart,
   createOrder,
   getOrders
-} = require('../controllers/userController');
-const authMiddleware = require('../middleware/authMiddleware');
+} = require("../controllers/userController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 router.use(authMiddleware);
 
-router.get('/', getUserData);
-router.post('/cart', addToCart);
-router.delete('/cart/:productId', removeFromCart);
-router.put('/cart/:productId', updateCartItem);
-router.delete('/cart', clearCart);
-router.post('/orders', createOrder);
-router.get('/orders', getOrders);
+router.get("/", getUserData);
+router.post("/cart", addToCart);
+router.delete("/cart/:productId", removeFromCart);
+router.put("/cart/:productId", updateCartItem);
+router.delete("/cart", clearCart);
+router.post("/orders", createOrder);
+router.get("/orders", getOrders);
 
 module.exports = router;

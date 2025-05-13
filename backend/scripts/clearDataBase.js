@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-const Product = require('../models/Products');
-const Review = require('../models/Review');
+const mongoose = require("mongoose");
+require("dotenv").config();
+const Product = require("../models/Products");
+const Review = require("../models/Review");
 
 async function clearDatabase() {
   try {
@@ -10,10 +10,10 @@ async function clearDatabase() {
     await Product.deleteMany({});
     await Review.deleteMany({});
 
-    console.log('✅ База данных очищена');
+    console.log("✅ База данных очищена");
     process.exit(0);
   } catch (err) {
-    console.error('Ошибка очистки:', err);
+    console.error("Ошибка очистки:", err);
     process.exit(1);
   }
 }

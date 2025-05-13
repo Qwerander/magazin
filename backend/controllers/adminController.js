@@ -1,4 +1,4 @@
-const userService = require('../services/userService');
+const userService = require("../services/userService");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ exports.getAllOrders = async (req, res) => {
     const orders = await userService.getAllOrders();
     res.json(orders);
   } catch (err) {
-    console.error('Error fetching orders:', err);
+    console.error("Error fetching orders:", err);
     res.status(500).json({ error: err.message });
   }
 };

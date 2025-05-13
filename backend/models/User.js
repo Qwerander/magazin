@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { OrderSchema } = require('./Order'); // Импортируем схему
+const mongoose = require("mongoose");
+const { OrderSchema } = require("./Order"); // Импортируем схему
 
 const UserDataSchema = new mongoose.Schema({
   orders: [OrderSchema]
@@ -14,4 +14,4 @@ const UserSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

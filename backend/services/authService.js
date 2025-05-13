@@ -1,12 +1,12 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 class AuthService {
   static async signup(username, email, password) {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      throw new Error('User already exists');
+      throw new Error("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -29,12 +29,12 @@ class AuthService {
   static async signin(email, password) {
     const user = await User.findOne({ email });
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new Error("Invalid credentials");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      throw new Error("Invalid credentials");
     }
 
     const token = this.generateToken(user);
@@ -55,10 +55,10 @@ class AuthService {
         userId: user._id,
         email: user.email,
         username: user.username,
-        isAdmin: user.isAdmin,
+        isAdmin: user.isAdmin
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: "1h" }
     );
   }
 }
