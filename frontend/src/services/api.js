@@ -89,7 +89,11 @@ export const addReview = async (token, productId, reviewData) => {
 export const createProduct = async (token, productData) => {
   try {
     const authApi = createAuthApi(token);
-    const response = await authApi.post("/products", productData);
+    const response = await authApi.post("/products", {
+      ...productData,
+      price: Number(productData.price),
+      stock: Number(productData.stock)
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating product:", error);
@@ -157,7 +161,6 @@ export const clearCart = async (token) => {
 
 export const createOrder = async (token, orderData) => {
   try {
-
     const authApi = createAuthApi(token);
     const response = await authApi.post("/user/orders", orderData);
     return response.data;

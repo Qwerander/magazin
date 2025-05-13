@@ -6,7 +6,9 @@ class ProductService {
     const filter = {};
 
     if (type_plant) {
-      filter.type_plant = Array.isArray(type_plant) ? { $in: type_plant } : type_plant;
+      filter.type_plant = Array.isArray(type_plant)
+        ? { $in: type_plant }
+        : type_plant;
     }
     if (weight) filter.weight = weight;
     if (minPrice || maxPrice) {
@@ -20,13 +22,15 @@ class ProductService {
     if (sortBy === "price_desc") sortOptions.price = -1;
 
     const products = await Product.find(filter).sort(sortOptions);
-    return products.map(p => p.toObject({ virtuals: true }));
+    return products.map((p) => p.toObject({ virtuals: true }));
   }
 
   async createProduct(productData) {
     const { title, price, barcode, weight } = productData;
     if (!title || !price || !barcode || !weight) {
-      throw new Error("Необходимо указать название, цену, штрих-код и вес товара");
+      throw new Error(
+        "Необходимо указать название, цену, штрих-код и вес товара"
+      );
     }
 
     const product = new Product({
@@ -59,6 +63,26 @@ class ProductService {
       throw new Error("Товар с указанным штрих-кодом не найден");
     }
     return product.toObject({ virtuals: true });
+  }
+  async updateProduct(id, productData) {
+    const product = await Product.findByIdAndUpdate(id, productData, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!product) {
+      throw new Error("Товар не найден");
+    }
+
+    return product.toObject({ virtuals: true });
+  }
+
+  async deleteProduct(id) {
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      throw new Error("Товар не найден");
+    }
   }
 
   async updateProductRating(productId, newRating) {

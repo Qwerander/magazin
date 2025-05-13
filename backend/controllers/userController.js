@@ -66,3 +66,12 @@ exports.getOrders = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await userService.getAllOrders();
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

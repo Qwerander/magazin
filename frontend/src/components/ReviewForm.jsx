@@ -1,29 +1,31 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Rating } from "@mui/material";
+import { TextField, Button, Box, Rating, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../store/slices/authSlice"; // Предполагается, что у вас есть такой селектор
 
 const ReviewForm = ({ onSubmit }) => {
   const [review, setReview] = useState({
-    userName: "",
     rating: 5,
     comment: "",
   });
 
+  const user = useSelector(selectCurrentUser); // Получаем данные пользователя из хранилища
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(review);
-    setReview({ userName: "", rating: 5, comment: "" });
+    // Добавляем имя пользователя из store к данным отзыва
+    onSubmit({
+      ...review,
+      userName: user.username, // или user.name, в зависимости от структуры вашего store
+    });
+    setReview({ rating: 5, comment: "" });
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-      <TextField
-        label="Ваше имя"
-        value={review.userName}
-        onChange={(e) => setReview({ ...review, userName: e.target.value })}
-        fullWidth
-        required
-        sx={{ mb: 2 }}
-      />
+      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+        От имени: {user.username} {/* Показываем имя пользователя */}
+      </Typography>
       <Rating
         value={review.rating}
         onChange={(e, newValue) => setReview({ ...review, rating: newValue })}
@@ -36,10 +38,11 @@ const ReviewForm = ({ onSubmit }) => {
         value={review.comment}
         onChange={(e) => setReview({ ...review, comment: e.target.value })}
         fullWidth
+        required
         sx={{ mb: 2 }}
       />
       <Button type="submit" variant="contained">
-        Отправить
+        Отправить отзыв
       </Button>
     </Box>
   );

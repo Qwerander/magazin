@@ -7,7 +7,6 @@ import {
   CircularProgress
 } from "@mui/material";
 import ProductCard from "./ProductCard";
-import AddProductForm from "./AddProductForm";
 import Filters from "./Filters";
 import { useDispatch, useSelector } from "react-redux";
 import {

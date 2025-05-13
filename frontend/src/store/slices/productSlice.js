@@ -42,11 +42,17 @@ export const addNewProduct = createAsyncThunk(
   }
 );
 
+// В productSlice.js обновим updateExistingProduct и removeProduct:
+
 export const updateExistingProduct = createAsyncThunk(
   "products/updateProduct",
-  async (productData, { rejectWithValue }) => {
+  async ({ token, productId, productData }, { rejectWithValue }) => {
+    console.log(token);
+    console.log(productId);
+    console.log(productData);
+
     try {
-      const updatedProduct = await updateProduct(productData);
+      const updatedProduct = await updateProduct(token, productId, productData);
       return updatedProduct;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -56,9 +62,11 @@ export const updateExistingProduct = createAsyncThunk(
 
 export const removeProduct = createAsyncThunk(
   "products/deleteProduct",
-  async (productId, { rejectWithValue }) => {
+  async ({ token, productId }, { rejectWithValue }) => {
+        console.log(token);
+    console.log(productId);
     try {
-      await deleteProduct(productId);
+      await deleteProduct(token, productId);
       return productId;
     } catch (error) {
       return rejectWithValue(error.message);

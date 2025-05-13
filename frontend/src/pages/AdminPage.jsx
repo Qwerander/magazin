@@ -34,7 +34,7 @@ import {
 } from "../store/slices/adminSlice";
 import { loadProducts, addNewProduct } from "../store/slices/productSlice";
 import ProductList from "../components/ProductList";
-import AddProductForm from "../components/AddProductForm";
+import ProductForm from "../components/ProductForm";
 import { selectCurrentToken, selectIsAdmin } from "../store/slices/authSlice";
 
 function TabPanel(props) {
@@ -61,7 +61,9 @@ const AdminPage = () => {
   const dispatch = useDispatch();
 
   // Products state
-  const { status: productsStatus, error: productsError } = useSelector((state) => state.products);
+  const { status: productsStatus, error: productsError } = useSelector(
+    (state) => state.products
+  );
 
   // Admin state
   const users = useSelector(selectAllUsers);
@@ -71,13 +73,13 @@ const AdminPage = () => {
 
   useEffect(() => {
     if (isAdmin) {
-        if (value === 0) {
-          dispatch(loadProducts());
-        } else if (value === 1 && token) {
-          dispatch(loadAllOrders(token));
-        } else if (value === 2 && token) {
-          dispatch(loadAllUsers(token));
-        }
+      if (value === 0) {
+        dispatch(loadProducts());
+      } else if (value === 1 && token) {
+        dispatch(loadAllOrders(token));
+      } else if (value === 2 && token) {
+        dispatch(loadAllUsers(token));
+      }
     }
   }, [dispatch, value, token, isAdmin]);
 
@@ -85,14 +87,21 @@ const AdminPage = () => {
     setValue(newValue);
   };
 
+  // В AdminPage.jsx замените handleProductAdded на:
   const handleProductAdded = async (newProduct) => {
     try {
-      await dispatch(addNewProduct({ productData: newProduct, token })).unwrap();
+      await dispatch(
+        addNewProduct({
+          productData: newProduct,
+          token
+        })
+      ).unwrap();
       setShowAddForm(false);
       alert("Товар успешно добавлен!");
+      dispatch(loadProducts()); // Обновляем список товаров
     } catch (error) {
       console.error("Error adding product:", error);
-      alert("Ошибка при добавлении товара");
+      alert(`Ошибка при добавлении товара: ${error.message}`);
     }
   };
 
@@ -125,14 +134,21 @@ const AdminPage = () => {
           {showAddForm ? "Скрыть форму" : "Добавить товар"}
         </Button>
 
-        {showAddForm && <AddProductForm onProductAdded={handleProductAdded} />}
+        {showAddForm && (
+          <ProductForm
+            onSubmit={handleProductAdded}
+            onClose={() => setShowAddForm(false)}
+          />
+        )}
 
         {productsStatus === "loading" ? (
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <CircularProgress />
           </Box>
         ) : productsError ? (
-          <Alert severity="error" sx={{ mb: 3 }}>{productsError}</Alert>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {productsError}
+          </Alert>
         ) : (
           <ProductList adminMode={true} />
         )}
@@ -144,7 +160,9 @@ const AdminPage = () => {
             <CircularProgress />
           </Box>
         ) : adminError ? (
-          <Alert severity="error" sx={{ mb: 3 }}>{adminError}</Alert>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {adminError}
+          </Alert>
         ) : (
           <TableContainer component={Paper} sx={{ mb: 3 }}>
             <Table>
@@ -163,12 +181,13 @@ const AdminPage = () => {
                   <TableRow key={order._id}>
                     <TableCell>#{order._id.slice(-6).toUpperCase()}</TableCell>
                     <TableCell>
-                      {order.username || 'Неизвестный пользователь'}
+                      {order.username || "Неизвестный пользователь"}
                     </TableCell>
                     <TableCell>
-                      {order.items.map(item => (
+                      {order.items.map((item) => (
                         <Box key={item._id} sx={{ mb: 1 }}>
-                          {item.productId?.title}: {item.quantity} × {item.price} ₽
+                          {item.title}: {item.quantity} ×{" "}
+                          {item.price} ₽
                         </Box>
                       ))}
                     </TableCell>
@@ -177,7 +196,9 @@ const AdminPage = () => {
                       <FormControl fullWidth size="small">
                         <Select
                           value={order.status}
-                          onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                          onChange={(e) =>
+                            handleStatusChange(order._id, e.target.value)
+                          }
                         >
                           <MenuItem value="pending">Ожидает</MenuItem>
                           <MenuItem value="processing">В обработке</MenuItem>
@@ -204,7 +225,9 @@ const AdminPage = () => {
             <CircularProgress />
           </Box>
         ) : adminError ? (
-          <Alert severity="error" sx={{ mb: 3 }}>{adminError}</Alert>
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {adminError}
+          </Alert>
         ) : (
           <TableContainer component={Paper}>
             <Table>
@@ -224,15 +247,19 @@ const AdminPage = () => {
                     <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
-                      <Box sx={{
-                        display: 'inline-block',
-                        px: 1,
-                        py: 0.5,
-                        borderRadius: 1,
-                        bgcolor: user.isAdmin ? 'primary.light' : 'grey.200',
-                        color: user.isAdmin ? 'primary.contrastText' : 'text.primary'
-                      }}>
-                        {user.isAdmin ? 'Админ' : 'Пользователь'}
+                      <Box
+                        sx={{
+                          display: "inline-block",
+                          px: 1,
+                          py: 0.5,
+                          borderRadius: 1,
+                          bgcolor: user.isAdmin ? "primary.light" : "grey.200",
+                          color: user.isAdmin
+                            ? "primary.contrastText"
+                            : "text.primary"
+                        }}
+                      >
+                        {user.isAdmin ? "Админ" : "Пользователь"}
                       </Box>
                     </TableCell>
                     <TableCell>

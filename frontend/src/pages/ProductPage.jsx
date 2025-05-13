@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchProductById, fetchReviews, addReview } from "../services/api";
 import {
   Typography,
   Box,
   CircularProgress,
   Alert,
-  TextField,
   Button,
   Rating,
   List,
@@ -19,6 +18,9 @@ import {
 import { Add, Remove } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../store/slices/cartSlice";
+import { selectCurrentToken, selectCurrentUser } from "../store/slices/authSlice";
+import ReviewForm from "../components/ReviewForm";
+
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -26,11 +28,8 @@ const ProductPage = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [reviewForm, setReviewForm] = useState({
-    userName: "",
-    rating: 5,
-    comment: ""
-  });
+  const token = useSelector(selectCurrentToken);
+  const user = useSelector(selectCurrentUser);
 
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
@@ -54,16 +53,13 @@ const ProductPage = () => {
     loadData();
   }, [id]);
 
-  const handleReviewSubmit = async (e) => {
-    e.preventDefault();
+  const handleReviewSubmit = async (reviewData) => {
     try {
-      const newReview = await addReview(id, reviewForm);
-      setReviews([...reviews, newReview]);
-      setReviewForm({
-        userName: "",
-        rating: 5,
-        comment: ""
+      const newReview = await addReview(token, id, {
+        ...reviewData,
+        userName: user.username // Используем имя пользователя из store
       });
+      setReviews([...reviews, newReview]);
     } catch (err) {
       setError(err.message);
     }
@@ -188,86 +184,63 @@ const ProductPage = () => {
         </Box>
       </Box>
 
-      <Box component="form" onSubmit={handleReviewSubmit} sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4 }}>
         <Typography variant="h6" gutterBottom>
-          Оставить отзыв
+          Отзывы ({reviews.length})
         </Typography>
 
-        <TextField
-          fullWidth
-          label="Ваше имя"
-          value={reviewForm.userName}
-          onChange={(e) =>
-            setReviewForm({ ...reviewForm, userName: e.target.value })
-          }
-          required
-          sx={{ mb: 2 }}
-        />
+        {token ? (
+          <ReviewForm onSubmit={handleReviewSubmit} />
+        ) : (
+          <Box sx={{ textAlign: 'center', py: 3 }}>
+            <Typography variant="body1" gutterBottom>
+              Войдите, чтобы оставить отзыв
+            </Typography>
+            <Button
+              component={Link}
+              to="/login"
+              variant="contained"
+              color="primary"
+            >
+              Войти
+            </Button>
+          </Box>
+        )}
 
-        <Box sx={{ mb: 2 }}>
-          <Typography component="legend">Оценка</Typography>
-          <Rating
-            value={reviewForm.rating}
-            onChange={(e, newValue) =>
-              setReviewForm({ ...reviewForm, rating: newValue })
-            }
-          />
-        </Box>
-
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          label="Комментарий"
-          value={reviewForm.comment}
-          onChange={(e) =>
-            setReviewForm({ ...reviewForm, comment: e.target.value })
-          }
-          sx={{ mb: 2 }}
-        />
-
-        <Button type="submit" variant="contained">
-          Отправить отзыв
-        </Button>
+        {reviews.length > 0 ? (
+          <List>
+            {reviews.map((review) => (
+              <React.Fragment key={review._id}>
+                <ListItem alignItems="flex-start">
+                  <ListItemText
+                    primary={review.userName}
+                    secondary={
+                      <>
+                        <Rating value={review.rating} readOnly size="small" />
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          display="block"
+                        >
+                          {review.comment}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </Typography>
+                      </>
+                    }
+                  />
+                </ListItem>
+                <Divider component="li" />
+              </React.Fragment>
+            ))}
+          </List>
+        ) : (
+          <Typography variant="body1" color="text.secondary">
+            Пока нет отзывов. Будьте первым!
+          </Typography>
+        )}
       </Box>
-
-      <Typography variant="h6" gutterBottom>
-        Отзывы ({reviews.length})
-      </Typography>
-
-      {reviews.length > 0 ? (
-        <List>
-          {reviews.map((review) => (
-            <React.Fragment key={review._id}>
-              <ListItem alignItems="flex-start">
-                <ListItemText
-                  primary={review.userName}
-                  secondary={
-                    <>
-                      <Rating value={review.rating} readOnly size="small" />
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        display="block"
-                      >
-                        {review.comment}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {new Date(review.createdAt).toLocaleDateString()}
-                      </Typography>
-                    </>
-                  }
-                />
-              </ListItem>
-              <Divider component="li" />
-            </React.Fragment>
-          ))}
-        </List>
-      ) : (
-        <Typography variant="body1" color="text.secondary">
-          Пока нет отзывов. Будьте первым!
-        </Typography>
-      )}
     </Box>
   );
 };
