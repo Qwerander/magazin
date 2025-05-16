@@ -22,20 +22,23 @@ app.use(
 );
 app.use(express.json());
 
+const mongoUri =
+  process.env.NODE_ENV === "prod"
+    ? process.env.MONGO_URI
+    : "mongodb://admin:password@localhost:27017/?authSource=admin";
+
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  .connect(mongoUri, {
+    serverSelectionTimeoutMS: 5000 // 5 секунд таймаута
   })
   .then(async () => {
-    console.log("MongoDB connected via Docker");
-
+    console.log("Connected to MongoDB Atlas");
     if (process.env.INIT_DB === "true") {
       await createAdminUser();
       await initializeDatabase();
     }
   })
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => console.error("Atlas connection error:", err));
 
 // Routes
 app.use("/api/auth", authRoutes);
