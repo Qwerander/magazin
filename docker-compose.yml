@@ -11,19 +11,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodb_data:/data/db
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: password
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongodb:27017/admin
-    depends_on:
-      - mongodb
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 30s
+      retries: 3
 
   backend:
     build:
@@ -32,14 +24,16 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://admin:password@mongodb:27017/?authSource=admin
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/online-store?authSource=admin
       - PORT=5000
       - JWT_SECRET=your_strong_secret_key_here
       - INIT_DB=true
     volumes:
       - ./backend:/app
+      - /app/node_modules
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
 
   frontend:
     build:
